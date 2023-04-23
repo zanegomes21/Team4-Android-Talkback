@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Spike',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Spike'),
     );
   }
 }
@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -94,21 +95,35 @@ class _MyHomePageState extends State<MyHomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                print('button pressed!');
+                //do something
+              },
+              child: Text('API'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            Text('API results'),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('The quick brown fox jumped over the fence'),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                // Add your onPressed code here!
+              },
+              child: const Icon(Icons.record_voice_over),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        label: const Text('Gesture'),
+        backgroundColor: Colors.blue,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
