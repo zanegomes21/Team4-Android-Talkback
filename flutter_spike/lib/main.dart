@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/gestures.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -111,7 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Add your onPressed code here!
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => GesturesPage()));
         },
         label: const Text('Gesture'),
         backgroundColor: Colors.blue,
