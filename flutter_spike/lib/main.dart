@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -93,9 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
             Text('API results'),
 
             //Text to Voice text
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('The quick brown fox jumped over the fence'),
+            ElevatedButton(
+              onPressed: () async {
+                print('button pressed!');
+                FlutterTts flutterTts = FlutterTts();
+                var result = await flutterTts
+                    .speak('The quick brown fox jumped over the fence');
+              },
+              child: Text('Say "The quick brown fox jumped over the fence"'),
             ),
 
             //Voice to Text Button
