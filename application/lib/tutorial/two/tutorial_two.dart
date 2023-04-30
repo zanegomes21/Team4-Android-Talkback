@@ -1,3 +1,4 @@
+import 'package:application/tutorial/two/module/go_back.dart';
 import 'package:flutter/material.dart';
 
 class TutorialTwo extends StatelessWidget {
@@ -13,22 +14,27 @@ class TutorialTwo extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             ElevatedButton(
-              onPressed: null,
-              child: Text("Go Back"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GoBack()),
+                );
+              },
+              child: const Text("Go Back Module"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
-              child: Text("Scrolling"),
+              child: Text("Scrolling Module"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
-              child: Text("Explore Menu"),
+              child: Text("Explore Menu Module"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
-              child: Text("Adjust Slide"),
+              child: Text("Adjust Slide Module"),
             ),
           ],
         ),
