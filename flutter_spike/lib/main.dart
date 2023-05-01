@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/gestures.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
@@ -116,7 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Add your onPressed code here!
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => GesturesPage()));
         },
         label: const Text('Gesture'),
         backgroundColor: Colors.blue,
