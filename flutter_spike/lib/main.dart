@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test_app/gestures.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,16 +52,49 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  /// This has to happen only once per app
+  void _initSpeech() async {
+    print('Initialising speech...');
+    _speechEnabled = await _speechToText.initialize();
+    print('... speech initialised');
+    setState(() {});
+  }
+
+  /// Each time to start a speech recognition session
+  void _startListening() async {
+    print('Starting listening...');
+    await _speechToText.listen(onResult: _onSpeechResult);
+    print('... listening ended');
+    setState(() {});
+  }
+
+  /// Manually stop the active speech recognition session
+  /// Note that there are also timeouts that each platform enforces
+  /// and the SpeechToText plugin supports setting timeouts on the
+  /// listen method.
+  void _stopListening() async {
+    print('Stopping listening...');
+    await _speechToText.stop();
+    print('... stopped listening');
+    setState(() {});
+  }
+
+  /// This is the callback that the SpeechToText plugin calls when
+  /// the platform returns recognized words.
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    print('Received speech result');
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _lastWords = result.recognizedWords;
     });
   }
 
@@ -104,14 +139,20 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Say "The quick brown fox jumped over the fence"'),
             ),
 
-            //Voice to Text Button
+            // Speech-to-text text
+            Text('Recognised words: $_lastWords'),
+
+            // Speech-to-text button
             ElevatedButton(
-              onPressed: () {
-                // Add your onPressed code here!
-              },
-              child: const Icon(Icons.record_voice_over),
+              onPressed: _speechToText.isNotListening
+                  ? _startListening
+                  : _stopListening,
+              child: Text(_speechEnabled
+                  ? _speechToText.isListening
+                      ? 'Listening'
+                      : 'Tap to listen'
+                  : 'Speech not enabled'),
             ),
-            Text('Voice Input'),
           ],
         ),
       ),
