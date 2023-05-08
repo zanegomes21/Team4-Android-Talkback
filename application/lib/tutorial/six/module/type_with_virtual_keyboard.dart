@@ -11,7 +11,7 @@ class TypeWithKeyboard extends StatelessWidget {
     final document = xml.XmlDocument.parse(xmlString);
     final lessonNode = document.findElements("lesson6");
     //print(lessonNode.first.findElements('title').first.text);
-    return lessonNode.first.findElements("title").first.text;
+    return lessonNode.first.findElements("virtual_keyboard").first.text;
 
   }
   @override
@@ -26,17 +26,24 @@ class TypeWithKeyboard extends StatelessWidget {
         title: const Text("Go Back Module"),
       ),
       body: Center(
-        child: FutureBuilder(
-          future: getLessonFromXML(context),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
+        child: Column(
+          children: [FutureBuilder(
+            future: getLessonFromXML(context),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
+            TextField(
+              controller: TextEditingController(),
+              keyboardType: TextInputType.text,
+            ),
+          ],
+      ),
       ),
     );
   }
