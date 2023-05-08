@@ -19,7 +19,7 @@ class TutorialSix extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const typeWithKeyboard()),
+                  MaterialPageRoute(builder: (context) => const TypeWithKeyboard()),
                 );
               },
               child: const Text("typing with a virtual keyboard"),

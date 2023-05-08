@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
-import 'package:application/resources/strings.xml';
-class typeWithKeyboard extends StatelessWidget {
-  const typeWithKeyboard({Key? key}) : super(key: key);
+import 'package:xml/xml.dart' as xml;
 
+class TypeWithKeyboard extends StatelessWidget {
+  const TypeWithKeyboard({Key? key}) : super(key: key);
+  Future<String> getLessonFromXML(BuildContext context) async {
+    //final file = File('text.xml');
+    //final xmlString = file.readAsStringSync();
+    String xmlString = await DefaultAssetBundle.of(context).loadString("lib/resources/test.xml");
+    final document = xml.XmlDocument.parse(xmlString);
+    final lessonNode = document.findElements("lesson6");
+    //print(lessonNode.first.findElements('title').first.text);
+    return lessonNode.first.findElements("title").first.text;
+
+  }
   @override
   Widget build(BuildContext context) {
     SemanticsService.announce(
@@ -14,6 +24,19 @@ class typeWithKeyboard extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false, // Disable back button
         title: const Text("Go Back Module"),
+      ),
+      body: Center(
+        child: FutureBuilder(
+          future: getLessonFromXML(context),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }

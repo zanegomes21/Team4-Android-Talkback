@@ -1,4 +1,5 @@
 import 'package:application/routes.dart';
+import 'package:application/tutorial/six/tutorial_six.dart';
 import 'package:flutter/material.dart';
 import 'package:application/tutorial/tutorial_main.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
               const MyHomePage(title: 'Flutter Demo Home Page'),
           Routes.tutorials: (context) => const TutorialMain(),
           Routes.tutorialTwo: (context) => const TutorialTwo(),
+          Routes.tutorialSix: (context) => const TutorialSix(),
         });
   }
 }
@@ -150,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
               break;
             case 2:
               // tutorials
-              path = Routes.tutorialTwo;
+              path = Routes.tutorialSix;
               break;
           }
           Navigator.pushNamed(context, path);

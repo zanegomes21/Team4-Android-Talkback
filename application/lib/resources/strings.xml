@@ -40,8 +40,10 @@
     <string name="lesson4_desc">This lesson covers the gestures and action needed to interact with media using Talkback</string>
     <string name="lesson5_title">Advanced Menu Navigation</string>
     <string name="lesson5_desc">This lesson covers how to navigate more complex Android menus using Talkback</string>
-    <string name="lesson6_title">Typing Lesson</string>
-    <string name="lesson6_desc">These cover the gestures and actions needed to use the virtual keyboard through Talkback</string>
+    <lesson6>
+        <title>Typing Lesson</title>
+        <decs>These cover the gestures and actions needed to use the virtual keyboard through Talkback</decs>
+    </lesson6>
     <string name="lesson7_title">External Apps</string>
     <string name="lesson7_desc">This lesson provides real world experience by having you jump to other applications through Talkback</string>
 

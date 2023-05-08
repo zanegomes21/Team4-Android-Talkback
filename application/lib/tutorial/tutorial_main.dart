@@ -1,3 +1,4 @@
+import 'package:application/tutorial/six/tutorial_six.dart';
 import 'package:flutter/material.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
 
@@ -23,6 +24,15 @@ class TutorialMain extends StatelessWidget {
                 );
               },
               child: const Text("Tutorial 2"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TutorialSix()),
+                );
+              },
+              child: const Text("Tutorial 6"),
             ),
           ],
         ),
