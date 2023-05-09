@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Spike',
+        title: 'Teach Me Talkback',
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -29,8 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: Routes.home,
         routes: {
-          Routes.home: (context) =>
-              const MyHomePage(title: 'Flutter Demo Home Page'),
+          Routes.home: (context) => const MyHomePage(title: 'Home Page'),
           Routes.tutorials: (context) => const TutorialMain(),
           Routes.tutorialTwo: (context) => const TutorialTwo(),
         });
@@ -56,18 +55,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final ButtonStyle style =
+      ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
 
   @override
   Widget build(BuildContext context) {
@@ -89,38 +78,45 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //API button
             ElevatedButton(
-              onPressed: () {
-                print('button pressed!');
-                //do something
-              },
-              child: Text('API'),
+              style: style,
+              onPressed: null,
+              child: const Text('Tutorial 1'),
             ),
-            Text('API results'),
-
-            //Text to Voice text
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('The quick brown fox jumped over the fence'),
-            ),
-
-            //Voice to Text Button
             ElevatedButton(
-              onPressed: () {
-                // Add your onPressed code here!
-              },
-              child: const Icon(Icons.record_voice_over),
+              style: style,
+              onPressed: () =>
+                  {Navigator.pushNamed(context, Routes.tutorialTwo)},
+              child: const Text('Tutorial 2'),
             ),
-            Text('Voice Input'),
+            ElevatedButton(
+              style: style,
+              onPressed: null,
+              child: const Text('Tutorial 3'),
+            ),
+            ElevatedButton(
+              style: style,
+              onPressed: null,
+              child: const Text('Tutorial 4'),
+            ),
+            ElevatedButton(
+              style: style,
+              onPressed: null,
+              child: const Text('Tutorial 5'),
+            ),
+            ElevatedButton(
+              style: style,
+              onPressed: null,
+              child: const Text('Tutorial 6'),
+            ),
+            ElevatedButton(
+              style: style,
+              onPressed: null,
+              child: const Text('Tutorial 7'),
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: const Text('Gesture'),
-        backgroundColor: Colors.blue,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
