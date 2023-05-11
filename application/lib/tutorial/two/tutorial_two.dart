@@ -1,3 +1,4 @@
+import 'package:application/tutorial/two/module/adjust_slider.dart';
 import 'package:application/tutorial/two/module/go_back.dart';
 import 'package:flutter/material.dart';
 
@@ -32,10 +33,15 @@ class TutorialTwo extends StatelessWidget {
               onPressed: null,
               child: Text("Explore Menu Module"),
             ),
-            const ElevatedButton(
-              onPressed: null,
-              child: Text("Adjust Slide Module"),
-            ),
+            ElevatedButton(
+                onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AdjustSlider()),
+                      )
+                    },
+                child: Text("Adjust slide module"))
           ],
         ),
       ),
