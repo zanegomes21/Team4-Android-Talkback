@@ -1,11 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
 class Scroll extends StatelessWidget {
   const Scroll({Key? key}) : super(key: key);
-  final int _numButtons = 20;
+  final int _numButtons = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +12,7 @@ class Scroll extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // Disable back button
-        title: const Text("Scrolling Module"),
+        title: const Text("Vertical Scrolling Module"),
       ),
       body: Center(
           child: ListView.separated(
@@ -31,7 +29,7 @@ class Scroll extends StatelessWidget {
                     },
                     child: const Text('Finish module'))
                 : ElevatedButton(
-                    onPressed: null, child: Text('Button ${index + 1}')),
+                    onPressed: null, child: Text('Item ${index + 1}')),
           );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
@@ -48,6 +46,67 @@ class Scroll extends StatelessWidget {
 
   void _speakSuccess() {
     SemanticsService.announce(
+      "Great! Let's move on to horizontal scrolling.",
+      TextDirection.ltr,
+    );
+  }
+
+  void _onSuccess(BuildContext context) {
+    _speakSuccess();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => _ScrollHorizontalPage(),
+      ),
+    );
+    // Navigator.pop(context);
+  }
+}
+
+class _ScrollHorizontalPage extends StatelessWidget {
+  final int _numButtons = 10;
+
+  @override
+  Widget build(BuildContext context) {
+    _speakIntro();
+
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false, // Disable back button
+        title: const Text("Horizontal Scrolling Module"),
+      ),
+      body: Center(
+          child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(30),
+        itemCount: _numButtons,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            height: 100,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: index == _numButtons - 1
+                ? ElevatedButton(
+                    onPressed: () {
+                      _onSuccess(context);
+                    },
+                    child: const Text('Finish module'))
+                : ElevatedButton(
+                    onPressed: null, child: Text('Item ${index + 1}')),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
+      )),
+    );
+  }
+
+  void _speakIntro() {
+    SemanticsService.announce(
+      "To scroll right, swipe left with two fingers. To scroll left, swipe with two fingers in the opposite direction. To finish, first check the checkbox at the end of the horizontal menu, then press the button at the beginning of the horizontal menu.",
+      TextDirection.ltr,
+    );
+  }
+
+  void _speakSuccess() {
+    SemanticsService.announce(
       "You finished this module! Taking you back to the Tutorial.",
       TextDirection.ltr,
     );
@@ -55,6 +114,8 @@ class Scroll extends StatelessWidget {
 
   void _onSuccess(BuildContext context) {
     _speakSuccess();
+    // TODO: This feels very hacky, think we need better routing system...
+    Navigator.pop(context);
     Navigator.pop(context);
   }
 }
