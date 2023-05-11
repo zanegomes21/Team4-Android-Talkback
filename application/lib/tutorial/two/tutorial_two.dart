@@ -29,7 +29,7 @@ class TutorialTwo extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Scroll()),
+                  MaterialPageRoute(builder: (context) => const ScrollPage()),
                 );
               },
               child: const Text("Scrolling Module"),
