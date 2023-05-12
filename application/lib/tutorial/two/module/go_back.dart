@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 
 class GoBack extends StatelessWidget {
   const GoBack({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SemanticsService.announce("", TextDirection.ltr);
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // Disable back button
