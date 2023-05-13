@@ -1,4 +1,5 @@
 import 'package:application/tutorial/two/module/go_back.dart';
+import 'package:application/tutorial/two/module/scroll.dart';
 import 'package:flutter/material.dart';
 
 class TutorialTwo extends StatelessWidget {
@@ -24,9 +25,14 @@ class TutorialTwo extends StatelessWidget {
               },
               child: const Text("Go Back Module"),
             ),
-            const ElevatedButton(
-              onPressed: null,
-              child: Text("Scrolling Module"),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ScrollPage()),
+                );
+              },
+              child: const Text("Scrolling Module"),
             ),
             const ElevatedButton(
               onPressed: null,
