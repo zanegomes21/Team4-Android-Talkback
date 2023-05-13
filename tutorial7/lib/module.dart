@@ -1,4 +1,4 @@
-// Ported code from talkbacktutorial/lessons/modukes/module.kt in the original
+// Ported code from talkbacktutorial/lessons/modules/module.kt in the original
 // application
 import 'package:flutter/material.dart';
 import 'dart:math';
