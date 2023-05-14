@@ -69,17 +69,33 @@ class _ExploreMenuPageState extends State<ExploreMenuPage> {
           // Check if it is the last row
           final isLastRow = (index >= buttonTitles.length - 3);
 
+          // Check if it is the last row
+          final isLastColumn = (index % 3 == 2);
+
           // Apply different border styles based on the row position
-          final borderStyle = isLastRow
-              ? const Border(
-                  top: BorderSide(width: 2.0, color: Colors.black),
-                  left: BorderSide(width: 2.0, color: Colors.black),
-                  bottom: BorderSide(width: 2.0, color: Colors.black),
-                )
-              : const Border(
-                  top: BorderSide(width: 2.0, color: Colors.black),
-                  left: BorderSide(width: 2.0, color: Colors.black),
-                );
+          final borderStyle = isLastRow && isLastColumn
+            ? const Border(
+                top: BorderSide(width: 2.0, color: Colors.black),
+                left: BorderSide(width: 2.0, color: Colors.black),
+                bottom: BorderSide(width: 2.0, color: Colors.black),
+                right: BorderSide(width: 2.0, color: Colors.black),
+              )
+            : isLastColumn
+                ? const Border(
+                    top: BorderSide(width: 2.0, color: Colors.black),
+                    left: BorderSide(width: 2.0, color: Colors.black),
+                    right: BorderSide(width: 2.0, color: Colors.black),
+                  )
+                : isLastRow
+                    ? const Border(
+                        top: BorderSide(width: 2.0, color: Colors.black),
+                        left: BorderSide(width: 2.0, color: Colors.black),
+                        bottom: BorderSide(width: 2.0, color: Colors.black),
+                      )
+                    : const Border(
+                        top: BorderSide(width: 2.0, color: Colors.black),
+                        left: BorderSide(width: 2.0, color: Colors.black),
+                      );
 
           return Container(
             decoration: BoxDecoration(
