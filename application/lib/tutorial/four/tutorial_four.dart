@@ -1,3 +1,4 @@
+import 'package:application/tutorial/four/module/volume_media_control.dart';
 import 'package:flutter/material.dart';
 
 class TutorialFour extends StatelessWidget {
@@ -9,7 +10,7 @@ class TutorialFour extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Tutorial 4"),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -18,7 +19,12 @@ class TutorialFour extends StatelessWidget {
               child: Text("Start and Stop Media"),
             ),
             ElevatedButton(
-              onPressed: null,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MediaVolumeControlPage()),
+                );
+              },
               child: Text("Media Volume Control"),
             ),
             ElevatedButton(
