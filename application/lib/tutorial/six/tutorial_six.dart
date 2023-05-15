@@ -1,16 +1,16 @@
-import 'package:application/tutorial/six/tutorial_six.dart';
+import 'package:application/tutorial/six/module/type_with_virtual_keyboard.dart';
 import 'package:flutter/material.dart';
-import 'package:application/tutorial/two/tutorial_two.dart';
+import 'package:application/tutorial/six/module/chat_view.dart';
 
-class TutorialMain extends StatelessWidget {
-  const TutorialMain({Key? key}) : super(key: key);
+class TutorialSix extends StatelessWidget {
+  const TutorialSix({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // page with title and back button, buttons for each tutorial
+    // scaffold page
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tutorials"),
+        title: const Text("Tutorial 2"),
       ),
       body: Center(
         child: Column(
@@ -20,19 +20,20 @@ class TutorialMain extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TutorialTwo()),
+                  MaterialPageRoute(
+                      builder: (context) => const TypeWithKeyboard()),
                 );
               },
-              child: const Text("Tutorial 2"),
+              child: const Text("typing with a virtual keyboard"),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TutorialSix()),
+                  MaterialPageRoute(builder: (context) => ChatView()),
                 );
               },
-              child: const Text("Tutorial 6"),
+              child: Text("End of Lesson challenges"),
             ),
           ],
         ),
