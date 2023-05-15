@@ -1,3 +1,4 @@
+import 'package:application/tutorial/four/module/start_stop_media.dart';
 import 'package:flutter/material.dart';
 
 class TutorialFour extends StatelessWidget {
@@ -9,19 +10,25 @@ class TutorialFour extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Tutorial 4"),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: null,
-              child: Text("Start and Stop Media"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StartStopMedia()),
+                );
+              },
+              child: const Text("Start and Stop Media"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Media Volume Control"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("End of Lesson Challenge"),
             ),
