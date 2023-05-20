@@ -22,7 +22,6 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     tts.setLanguage("en-US");
     tts.setSpeechRate(0.5);
     tts.setVolume(1.0);
-    await player.setUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
   }
 
   Future<void> _speakIntro() async {
@@ -30,6 +29,7 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   "In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.",
     //   TextDirection.ltr,
     // );
+    await player.setUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
     await tts.speak("In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.");
   }
 
@@ -38,6 +38,7 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   "Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.",
     //   TextDirection.ltr,
     // );
+    tts.stop();
     tts.speak("Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.");
   }
 
@@ -46,6 +47,7 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   "Current volume is set above 75. Now that you've learned how to increase the volume, we will try decreasing the volume below 25. To decrease the volume, swipe down.",
     //   TextDirection.ltr,
     // );
+    tts.stop();
     tts.speak("Current volume is set above 75. Now that you've learned how to increase the volume, we will try decreasing the volume below 25. To decrease the volume, swipe down.");
   }
 
@@ -54,7 +56,9 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   "Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.",
     //   TextDirection.ltr,
     // );
+    tts.stop();
     tts.speak("Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.");
+    await tts.awaitSpeakCompletion(true);
   }
 
   @override
@@ -104,12 +108,15 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
               divisions: 20,
               label: _volume.round().toString(),
               onChanged: (double value) async {
+                double vol = value / 100;
+                await player.setVolume(vol);
                 if(value >= 75 && _hasSpokenIncreaseVolume){
                   _speakDecreaseVolume();
                   _hasSpokenDecreaseVolume = true;
                 }
                 if(value <= 25 && _hasSpokenDecreaseVolume){
                   await _speakOutro();
+                  player.pause();
                   Navigator.pop(context);
                 }
 
