@@ -3,7 +3,7 @@ import 'package:talkbacktutorial/activities/modules/jumpnavigation/jump_navigati
 import 'package:talkbacktutorial/databinding/activity_basic_frame_binding.dart';
 
 //This class creates the jump control widget itself 
-class JumpControlsActivity extends StatefulWidget {
+class JumpControlsActivity extends StatefulWidget{
   @override
   _JumpControlsActivityState createState() => _JumpControlsActivityState();
 }
