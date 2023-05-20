@@ -76,55 +76,65 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
         ),
         body: Center(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  player.play();
-                  if (_hasSpokenIntro && !_hasSpokenIncreaseVolume) {
-                    _speakIncreaseVolume();
-                    _hasSpokenIncreaseVolume = true;
-                  }
-                },
-                child: const Text('Play'),
+            Container(
+              margin: const EdgeInsets.all(25),
+              height: 300,
+              width: 300,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/media_music_bg.jpg'),
+                  fit: BoxFit.fill,
+                ),
               ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  player.pause();
-                },
-                child: const Text('Pause'),
-              ),
-            ]),
-            const SizedBox(height: 50),
-            Slider(
-              value: _volume,
-              min: 0,
-              max: 100,
-              divisions: 20,
-              label: _volume.round().toString(),
-              onChanged: (double value) async {
-                double vol = value / 100;
-                await player.setVolume(vol);
-                if(value >= 75 && _hasSpokenIncreaseVolume){
-                  _speakDecreaseVolume();
-                  _hasSpokenDecreaseVolume = true;
-                }
-                if(value <= 25 && _hasSpokenDecreaseVolume){
-                  await _speakOutro();
-                  player.pause();
-                  Navigator.pop(context);
-                }
-
-                setState(() {
-                  _volume = value;
-                });
-              },
             ),
+                Slider(
+                  value: _volume,
+                  min: 0,
+                  max: 100,
+                  divisions: 20,
+                  label: _volume.round().toString(),
+                  onChanged: (double value) async {
+                    double vol = value / 100;
+                    await player.setVolume(vol);
+                    if(value >= 75 && _hasSpokenIncreaseVolume){
+                      _speakDecreaseVolume();
+                      _hasSpokenDecreaseVolume = true;
+                    }
+                    if(value <= 25 && _hasSpokenDecreaseVolume){
+                      await _speakOutro();
+                      await player.pause();
+                      Navigator.pop(context);
+                    }
+
+                    setState(() {
+                      _volume = value;
+                    });
+                  },
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      ElevatedButton(
+                        onPressed: () {
+                          player.play();
+                          if (_hasSpokenIntro && !_hasSpokenIncreaseVolume) {
+                            _speakIncreaseVolume();
+                            _hasSpokenIncreaseVolume = true;
+                          }
+                        },
+                        child: const Icon(Icons.play_arrow),
+                      ),
+                      const SizedBox(width: 25),
+                      ElevatedButton(
+                        onPressed: () {
+                          player.pause();
+                        },
+                        child: const Icon(Icons.pause),
+                      ),
+                    ]),
           ]),
         ));
   }
