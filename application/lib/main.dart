@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:application/tutorial/tutorial_main.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
 import 'package:application/tutorial/four/tutorial_four.dart';
+import 'package:application/tutorial/five/tutorial_five.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           Routes.tutorials: (context) => const TutorialMain(),
           Routes.tutorialTwo: (context) => const TutorialTwo(),
           Routes.tutorialFour: (context) => const TutorialFour(),
+          Routes.tutorialFive: (context) => const TutorialFive(),
         });
   }
 }
@@ -104,7 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: style,
-              onPressed: null,
+              onPressed: () =>
+              {Navigator.pushNamed(context, Routes.tutorialFive)},
               child: const Text('Tutorial 5'),
             ),
             ElevatedButton(
