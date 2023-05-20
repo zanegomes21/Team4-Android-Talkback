@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class MediaVolumeControlPage extends StatefulWidget {
   const MediaVolumeControlPage({super.key});
@@ -10,35 +11,47 @@ class MediaVolumeControlPage extends StatefulWidget {
 
 class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
   bool _hasSpokenIntro = false; // Whether the intro has been spoken yet
+  bool _hasSpokenIncreaseVolume = false;
+  bool _hasSpokenDecreaseVolume = false;
   double _volume = 50; // Current volume
+  final FlutterTts tts = FlutterTts();
 
+  mediaVolumeControlPageState() {
+    tts.setLanguage("en-US");
+    tts.setSpeechRate(0.5);
+    tts.setVolume(1.0);
+  }
 
-  void _speakIntro() {
-    SemanticsService.announce(
-      "In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.",
-      TextDirection.ltr,
-    );
+  Future<void> _speakIntro() async {
+    // SemanticsService.announce(
+    //   "In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.",
+    //   TextDirection.ltr,
+    // );
+    await tts.speak("In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.");
   }
 
   void _speakIncreaseVolume() {
-    SemanticsService.announce(
-      "Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.",
-      TextDirection.ltr,
-    );
+    // SemanticsService.announce(
+    //   "Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.",
+    //   TextDirection.ltr,
+    // );
+    tts.speak("Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.");
   }
 
   void _speakDecreaseVolume() {
-    SemanticsService.announce(
-      "Current volume is set above 75. Now that you've learned how to increase the volume, we will try decreasing the volume below 25. To decrease the volume, swipe down.",
-      TextDirection.ltr,
-    );
+    // SemanticsService.announce(
+    //   "Current volume is set above 75. Now that you've learned how to increase the volume, we will try decreasing the volume below 25. To decrease the volume, swipe down.",
+    //   TextDirection.ltr,
+    // );
+    tts.speak("Current volume is set above 75. Now that you've learned how to increase the volume, we will try decreasing the volume below 25. To decrease the volume, swipe down.");
   }
 
   Future<void> _speakOutro() async{
-    SemanticsService.announce(
-      "Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.",
-      TextDirection.ltr,
-    );
+    // SemanticsService.announce(
+    //   "Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.",
+    //   TextDirection.ltr,
+    // );
+    tts.speak("Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.");
   }
 
   @override
@@ -64,8 +77,10 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
-
-                  _speakIncreaseVolume();
+                  if (_hasSpokenIntro) {
+                    _speakIncreaseVolume();
+                    _hasSpokenIncreaseVolume = true;
+                  }
                 },
                 child: const Text('Play'),
               ),
@@ -84,12 +99,13 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
               divisions: 20,
               label: _volume.round().toString(),
               onChanged: (double value) async {
-                if(value >= 75){
+                if(value >= 75 && _hasSpokenIncreaseVolume){
                   _speakDecreaseVolume();
+                  _hasSpokenDecreaseVolume = true;
                 }
-                if(value <= 25){
+                if(value <= 25 && _hasSpokenDecreaseVolume){
                   await _speakOutro();
-                  //Navigator.pop(context);
+                  Navigator.pop(context);
                 }
 
                 setState(() {
