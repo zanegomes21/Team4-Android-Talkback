@@ -1,39 +1,50 @@
 import 'package:flutter/material.dart';
 
+import 'package:application/tutorial/five/module/open_voice_command.dart';
+//import 'package:application/tutorial/five/module/end_of_lesson_challenge.dart';
+
 class TutorialFive extends StatelessWidget {
   const TutorialFive({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: const Text("Tutorial 5"),
       ),
-      body: const Center(
+
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Open Recent Apps"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Go To Home Screen"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Open Notification"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Open Talkback Menu"),
             ),
             ElevatedButton(
-              onPressed: null,
-              child: Text("Open Voice Command"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const OpenVoiceCommand()),
+                );
+              },
+              child: const Text("Open Voice Command"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("End of Lesson Challenge"),
             ),
