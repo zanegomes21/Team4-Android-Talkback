@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:just_audio/just_audio.dart';
 
 class MediaVolumeControlPage extends StatefulWidget {
   const MediaVolumeControlPage({super.key});
@@ -15,11 +16,13 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
   bool _hasSpokenDecreaseVolume = false;
   double _volume = 50; // Current volume
   final FlutterTts tts = FlutterTts();
+  final AudioPlayer player = AudioPlayer();
 
-  mediaVolumeControlPageState() {
+  mediaVolumeControlPageState() async {
     tts.setLanguage("en-US");
     tts.setSpeechRate(0.5);
     tts.setVolume(1.0);
+    await player.setUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
   }
 
   Future<void> _speakIntro() async {
@@ -77,7 +80,8 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
-                  if (_hasSpokenIntro) {
+                  player.play();
+                  if (_hasSpokenIntro && !_hasSpokenIncreaseVolume) {
                     _speakIncreaseVolume();
                     _hasSpokenIncreaseVolume = true;
                   }
@@ -87,6 +91,7 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
+                  player.pause();
                 },
                 child: const Text('Pause'),
               ),
