@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class GoHome extends StatefulWidget {
   const GoHome({Key? key}) : super(key: key);
@@ -79,16 +79,16 @@ class _GoHome extends State<GoHome> with WidgetsBindingObserver {
   }
 
   void changeStage() {
-    if (isIntro) {
-      setState(() {
-        isIntro = false;
-        isMiddle = true;
-      });
-    }
     if (isMiddle) {
       setState(() {
         isMiddle = false;
         isEnd = true;
+      });
+    }
+    if (isIntro) {
+      setState(() {
+        isIntro = false;
+        isMiddle = true;
       });
     }
   }
@@ -96,10 +96,6 @@ class _GoHome extends State<GoHome> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false, // Disable back button
-          title: const Text("Go Home Module"),
-        ),
         // Body
         body: Center(
             // Center is a layout widget. It takes a single child and positions it

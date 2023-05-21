@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class OpenRecent extends StatefulWidget {
   const OpenRecent({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class OpenRecent extends StatefulWidget {
 
 class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
   String introSpeech =
-      """Welcome, In this module you will learn hot to open recent apps, 
+      """Welcome, In this module you will learn how to open recent apps, 
       recent apps are a handy way to quickly switch between frequently used apps. 
       This can be done in two different ways, 
       firstly perform a swipe left then up gesture in one motion, 
@@ -75,24 +76,22 @@ class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    if (state != AppLifecycleState.resumed) {
-      return;
+    if (state == AppLifecycleState.resumed) {
+      changeStage();
     }
-
-    changeStage();
   }
 
   void changeStage() {
-    if (isIntro) {
-      setState(() {
-        isIntro = false;
-        isMiddle = true;
-      });
-    }
     if (isMiddle) {
       setState(() {
         isMiddle = false;
         isEnd = true;
+      });
+    }
+    if (isIntro) {
+      setState(() {
+        isIntro = false;
+        isMiddle = true;
       });
     }
   }
@@ -100,10 +99,6 @@ class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false, // Disable back button
-          title: const Text("Open Recent Module"),
-        ),
         // Body
         body: Center(
             // Center is a layout widget. It takes a single child and positions it
