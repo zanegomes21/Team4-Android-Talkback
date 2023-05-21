@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 
 import 'package:flutter_tts/flutter_tts.dart';
 
@@ -43,6 +44,7 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
 
   bool isIntro = true;
   bool isFasterSpee = false;
+  bool isSpeaking = false;
   FlutterTts? flutterTts;
 
   @override
@@ -50,33 +52,30 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    // Initilizing tts engine
-    _initTextToSpeech().then((value) {
-      flutterTts = value;
-      _speakLines(flutterTts!, introMessage);
-    });
+    initTts();
   }
 
-  Future<FlutterTts> _initTextToSpeech() async {
+  Future<void> initTts() async {
     String lang = 'en-US';
     double narrationSpeed = 0.45;
 
     FlutterTts flutterTts = FlutterTts();
-    flutterTts.setLanguage(lang);
-    flutterTts.setSpeechRate(narrationSpeed);
-    return flutterTts;
+    await flutterTts.setLanguage(lang);
+    await flutterTts.setSpeechRate(narrationSpeed);
   }
 
-  void _speakLines(FlutterTts flutterTts, String message) async {
-    String line =
-        message.replaceAll('\n', ' '); // Multi line str into str array
+  void speak(String message) async {
+    setState(() {
+      isSpeaking = true;
+    });
 
-    flutterTts.speak(line);
-  }
+    String line = message.replaceAll('\n', ' ');
 
-  void _resetTts() async {
-    await flutterTts!.stop();
-    flutterTts = null;
+    await flutterTts?.speak(line);
+
+    setState(() {
+      isSpeaking = false;
+    });
   }
 
   @override
@@ -108,6 +107,20 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
 
   @override
   Widget build(BuildContext context) {
+
+      if (isIntro) {
+        speak(introMessage);
+      } else if (isFasterSpee) {
+        speak(instructionMessage);
+      }
+
+      /*// This attempts to read instructions to user before talkBack
+      // reads screen elements to user.
+      if (isSpeaking) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      */
+
     return Scaffold(
       // Title
       appBar: AppBar(
@@ -125,44 +138,12 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
           // All the elements of the page
           children: [
             if (isIntro)
-              // This speaks the intro
-              FutureBuilder<FlutterTts>(
-                  future: _initTextToSpeech(),
-                  builder: (context, snapshot) {
-                    // This reades instructions and checks for successfull
-                    // execution of said instructions.
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        _speakLines(snapshot.data!, introMessage);
-                      }
-                      return const SizedBox();
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  }),
-            if (isIntro)
               // This is the instructions for the above intro
               const Text(
                 'Swipe right then up\nTo open voice commands',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-            if (isFasterSpee)
-              // This speaks the intro
-              FutureBuilder<FlutterTts>(
-                  future: _initTextToSpeech(),
-                  builder: (context, snapshot) {
-                    // This reades instructions and checks for successfull
-                    // execution of said instructions.
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        _speakLines(snapshot.data!, instructionMessage);
-                      }
-                      return const SizedBox();
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  }),
             if (isFasterSpee) Text(fasterSpeechTitle),
             if (isFasterSpee) Text(fasterSpeechOne),
             if (isFasterSpee) Text(fasterSpeechTwo)
@@ -172,48 +153,3 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     );
   }
 }
-
-/*
-child: FutureBuilder<FlutterTts>(
-                  future: _initTextToSpeech(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        _speakLines(snapshot.data!, introMessage);
-                      }
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                    return Container(); // Return a placeholder widget here if needed
-                  },
-                ),
-                */
-
-
-// Intor of module
-            /*
-              FutureBuilder<FlutterTts>(
-                future: _initTextToSpeech(),
-                builder: (context, snapshot) {
-                  // This reades instructions and checks for successfull
-                  // execution of said instructions.
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      _speakLines(snapshot.data!, introMessage);
-                    }
-
-                    return Expanded(
-                        child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onPanUpdate: (details) {
-                              if (details.delta.dx > 5 &&
-                                  details.delta.dy < 5) {
-                                _openVoiceCmdSuccess();
-                              }
-                            },
-                            child: Container()));
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                }),
-                  */
