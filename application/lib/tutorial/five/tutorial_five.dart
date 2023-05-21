@@ -2,12 +2,16 @@ import 'package:application/tutorial/five/module/go_home.dart';
 import 'package:application/tutorial/five/module/open_recent.dart';
 import 'package:flutter/material.dart';
 
+import 'package:application/tutorial/five/module/open_voice_command.dart';
+//import 'package:application/tutorial/five/module/end_of_lesson_challenge.dart';
+
 class TutorialFive extends StatelessWidget {
   const TutorialFive({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: const Text("Tutorial 5"),
       ),
@@ -41,9 +45,15 @@ class TutorialFive extends StatelessWidget {
               onPressed: null,
               child: Text("Open Talkback Menu"),
             ),
-            const ElevatedButton(
-              onPressed: null,
-              child: Text("Open Voice Command"),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const OpenVoiceCommand()),
+                );
+              },
+              child: const Text("Open Voice Command"),
             ),
             const ElevatedButton(
               onPressed: null,
@@ -55,3 +65,4 @@ class TutorialFive extends StatelessWidget {
     );
   }
 }
+
