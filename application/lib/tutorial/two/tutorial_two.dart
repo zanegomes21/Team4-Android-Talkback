@@ -37,8 +37,7 @@ class TutorialTwo extends StatelessWidget {
                 onPressed: () => {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const AdjustSlider()),
+                        MaterialPageRoute(builder: (context) => AdjustSlider()),
                       )
                     },
                 child: Text("Adjust slide module"))
