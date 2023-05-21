@@ -1,3 +1,5 @@
+import 'package:application/tutorial/five/module/go_home.dart';
+import 'package:application/tutorial/five/module/open_recent.dart';
 import 'package:flutter/material.dart';
 
 class TutorialFive extends StatelessWidget {
@@ -9,31 +11,41 @@ class TutorialFive extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Tutorial 5"),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: null,
-              child: Text("Open Recent Apps"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const OpenRecent()),
+                );
+              },
+              child: const Text("Open Recent Apps"),
             ),
             ElevatedButton(
-              onPressed: null,
-              child: Text("Go To Home Screen"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GoHome()),
+                );
+              },
+              child: const Text("Go To Home Screen"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Open Notification"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Open Talkback Menu"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("Open Voice Command"),
             ),
-            ElevatedButton(
+            const ElevatedButton(
               onPressed: null,
               child: Text("End of Lesson Challenge"),
             ),
