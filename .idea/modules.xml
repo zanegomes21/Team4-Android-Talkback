@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Team4-Android-Talkback.iml" filepath="$PROJECT_DIR$/.idea/Team4-Android-Talkback.iml" />
-      <module fileurl="file://$PROJECT_DIR$/tutorial7/tutorial7.iml" filepath="$PROJECT_DIR$/tutorial7/tutorial7.iml" />
     </modules>
   </component>
 </project>

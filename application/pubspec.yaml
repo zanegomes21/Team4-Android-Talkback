@@ -1,4 +1,4 @@
-name: tutorial7
+name: application
 description: Tutorial 7 of TeachMeTalkback 2023
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
