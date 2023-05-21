@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:flutter/services.dart';
 
 class MediaVolumeControlPage extends StatefulWidget {
   const MediaVolumeControlPage({super.key});
@@ -29,7 +31,14 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   "In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.",
     //   TextDirection.ltr,
     // );
-    await player.setUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+    // await player.setUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+    var content = await rootBundle
+        .load("assets/media_sound.mp3");
+    final directory = await getApplicationDocumentsDirectory();
+    var file = File("${directory.path}/media_sound.mp3");
+    file.writeAsBytesSync(content.buffer.asUint8List());
+
+    await player.setFilePath(file.path);
     await tts.speak("In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.");
   }
 
