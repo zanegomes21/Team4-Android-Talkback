@@ -9,9 +9,26 @@ class OpenRecent extends StatefulWidget {
 }
 
 class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
-  String introSpeech = """Welcome""";
-  String middleSpeech = """middleSpeech""";
-  String endSpeech = """endSpeech""";
+  String introSpeech =
+      """Welcome, In this module you will learn hot to open recent apps, 
+      recent apps are a handy way to quickly switch between frequently used apps. 
+      This can be done in two different ways, 
+      firstly perform a swipe left then up gesture in one motion, 
+      once completely return to the tutorial.
+      """;
+  String middleSpeech =
+      """Great job, you have correctly opened the recent app menu and returned 
+      to the tutorial, now to try with a different method. 
+      Try to open the recent apps menu using the recent button in the bottom right 
+      or bottom left corner of your phone, you can double tap this button to open 
+      the recent apps menu, if your device does not support the recent button or 
+      you are unsure, perform a swipe left then up gesture again to open the recent 
+      apps menu, then return to the tutorial.
+      """;
+  String endSpeech =
+      """You have completed the open recent apps module, sending you to 
+      the lessons screen.
+      """;
   bool isIntro = true;
   bool isMiddle = false;
   bool isEnd = false;
@@ -26,7 +43,7 @@ class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
     // Initilizing tts engine
     _initTextToSpeech().then((value) {
       flutterTts = value;
-      _speakLines(flutterTts!, introMessage);
+      _speakLines(flutterTts!, introSpeech);
     });
   }
 
@@ -82,10 +99,6 @@ class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    SemanticsService.announce(
-        "To open recent apps, swipe left then up gesture in one motion",
-        TextDirection.ltr);
-
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false, // Disable back button
