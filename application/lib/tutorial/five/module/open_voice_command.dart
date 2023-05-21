@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:application/routes.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_tts/flutter_tts.dart';
 
@@ -13,7 +14,6 @@ class OpenVoiceCommand extends StatefulWidget {
 class _OpenVoiceCommand extends State<OpenVoiceCommand>
     with WidgetsBindingObserver {
   String introMessage = """
-    Open Voice Commands using gestures.
     Welcome, in this module you will learn to enabel voice commands.
     To do this, you need to perform a swipe right then up gestrue in one motion. 
     When prompted for a voice command, say "HELP". 
@@ -27,9 +27,10 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     Next we will put some voice commands into action.
     Now that you know some voice commands, we will show you how to increase Talk
     Backs reading speed using voice command.
+    Swipe right when ready.
     """;
 
-  String fasterSpeechTitle = "Swipe right.";
+  String fasterSpeechTitle = "Swipe right";
 
   String fasterSpeechOne = """
     To make me speak faster swipe right then up with one finger to open voice command
@@ -44,7 +45,7 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
 
   bool isIntro = true;
   bool isFasterSpee = false;
-  bool isSpeaking = false;
+  bool isEnd = false;
   FlutterTts? flutterTts;
 
   @override
@@ -52,30 +53,25 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    initTts();
+    flutterTts = initTts();
   }
 
-  Future<void> initTts() async {
+  FlutterTts initTts() {
     String lang = 'en-US';
     double narrationSpeed = 0.45;
 
     FlutterTts flutterTts = FlutterTts();
-    await flutterTts.setLanguage(lang);
-    await flutterTts.setSpeechRate(narrationSpeed);
+    flutterTts.setLanguage(lang);
+    flutterTts.setSpeechRate(narrationSpeed);
+    return flutterTts;
   }
 
-  void speak(String message) async {
-    setState(() {
-      isSpeaking = true;
-    });
-
+  void speak(int duration, String message) async {
     String line = message.replaceAll('\n', ' ');
 
-    await flutterTts?.speak(line);
+    await Future.delayed(Duration(seconds: duration));
 
-    setState(() {
-      isSpeaking = false;
-    });
+    flutterTts?.speak(line);
   }
 
   @override
@@ -105,51 +101,44 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     }
   }
 
+  String returnPause = " " * 10;
+
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
 
-      if (isIntro) {
-        speak(introMessage);
-      } else if (isFasterSpee) {
-        speak(instructionMessage);
-      }
+    if (isIntro) {
+      speak(0, introMessage);
+    } else if (isFasterSpee) {
+      speak(2, instructionMessage);
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(fasterSpeechTitle.replaceAll('\n', ' ')),
+              Text(fasterSpeechOne.replaceAll('\n', ' ')),
+              Text(fasterSpeechTwo.replaceAll('\n', ' ')),
+              ElevatedButton(
+                style: style,
+                onPressed: () =>
+                    {Navigator.pushNamed(context, Routes.tutorialFive)},
+                child: const Text('Finish module'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
-      /*// This attempts to read instructions to user before talkBack
+    return Scaffold(body: Container());
+
+    /*// This attempts to read instructions to user before talkBack
       // reads screen elements to user.
       if (isSpeaking) {
         return const Center(child: CircularProgressIndicator());
       }
       */
-
-    return Scaffold(
-      // Title
-      appBar: AppBar(
-        title: const Text("Open Voice Commands"),
-      ),
-
-      // Body
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          // All the elements of the page
-          children: [
-            if (isIntro)
-              // This is the instructions for the above intro
-              const Text(
-                'Swipe right then up\nTo open voice commands',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            if (isFasterSpee) Text(fasterSpeechTitle),
-            if (isFasterSpee) Text(fasterSpeechOne),
-            if (isFasterSpee) Text(fasterSpeechTwo)
-          ],
-        ),
-      ),
-    );
   }
 }
