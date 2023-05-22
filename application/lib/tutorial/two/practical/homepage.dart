@@ -58,9 +58,15 @@ class _ItemsHeading extends StatelessWidget {
 class _ItemCard extends StatelessWidget {
   final ItemData data;
 
-  const _ItemCard({Key? key, required this.data}) : super(key: key);
+  final ValueChanged<ItemData> onAddToCart;
+  final ValueChanged<ItemData> onAddToWatchList;
 
-  const _ItemCard.fromData(ItemData data) : this(data: data);
+  const _ItemCard({
+    Key? key,
+    required this.data,
+    required this.onAddToCart,
+    required this.onAddToWatchList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +77,11 @@ class _ItemCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => Scaffold(
               appBar: AppBar(title: Text(data.name)),
-              body: Item.fromData(data: data),
+              body: Item(
+                data: data,
+                onAddToCart: onAddToCart,
+                onAddToWatchList: onAddToWatchList,
+              ),
             ),
           ),
         );
@@ -97,6 +107,23 @@ class _ItemCard extends StatelessWidget {
   }
 }
 
+class _Completed extends StatelessWidget {
+  const _Completed({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        "You have completed this module!",
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -112,6 +139,31 @@ class _HomePageState extends State<HomePage> {
   Iterable<ItemData> _data = data;
   RangeValues _currentRangeValues = const RangeValues(minRange, maxRange);
 
+  final Map<String, int> _cart;
+  final Map<String, int> _watchList;
+
+  _HomePageState()
+      : _cart = {},
+        _watchList = {};
+
+  _ItemCard createItemCard(ItemData data) {
+    return _ItemCard(
+      data: data,
+      onAddToCart: (ItemData data) {
+        setState(() {
+          _cart.update(data.id, (value) => value + 1, ifAbsent: () => 1);
+          print(_cart);
+        });
+      },
+      onAddToWatchList: (ItemData data) {
+        setState(() {
+          _watchList.update(data.id, (value) => value + 1, ifAbsent: () => 1);
+          print(_watchList);
+        });
+      },
+    );
+  }
+
   void onRangeUpdate(RangeValues values) {
     setState(() {
       _data = data.where(
@@ -123,44 +175,50 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  bool isCompleted() {
+    return ["0", "3", "4"].every((key) => _watchList.containsKey(key));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tutorial 2 Practical Exercise"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const _Instructions(),
-            const _Title(),
-            RangeSlider(
-              values: _currentRangeValues,
-              min: minRange,
-              max: maxRange,
-              divisions: divisions,
-              labels: RangeLabels(
-                _currentRangeValues.start.round().toString(),
-                _currentRangeValues.end.round().toString(),
+      body: !isCompleted()
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const _Instructions(),
+                  const _Title(),
+                  RangeSlider(
+                    values: _currentRangeValues,
+                    min: minRange,
+                    max: maxRange,
+                    divisions: divisions,
+                    labels: RangeLabels(
+                      _currentRangeValues.start.round().toString(),
+                      _currentRangeValues.end.round().toString(),
+                    ),
+                    onChanged: (RangeValues values) {
+                      setState(() {
+                        _currentRangeValues = values;
+                        onRangeUpdate(_currentRangeValues);
+                      });
+                    },
+                  ),
+                  const _ItemsHeading(),
+                  Expanded(
+                    child: ListView(
+                      children: _data.map(createItemCard).toList(),
+                    ),
+                  ),
+                ],
               ),
-              onChanged: (RangeValues values) {
-                setState(() {
-                  _currentRangeValues = values;
-                  onRangeUpdate(_currentRangeValues);
-                });
-              },
-            ),
-            const _ItemsHeading(),
-            Expanded(
-              child: ListView(
-                children: _data.map(_ItemCard.fromData).toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
+            )
+          : const _Completed(),
     );
   }
 }
