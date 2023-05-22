@@ -4,16 +4,35 @@ import 'item.dart';
 import 'data_item.dart' show ItemData, data;
 
 class _Instructions extends StatelessWidget {
-  const _Instructions({Key? key}) : super(key: key);
+  final List<String> targetKeys;
+
+  const _Instructions({Key? key, required this.targetKeys}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String items = targetKeys
+        .map((key) => data.singleWhere((d) => d.id == key).name)
+        .join(", ");
+
+    return ListTile(
+      title: Focus(
+        autofocus: true,
+        child: Text(
+          'This module represents a practical scenario that requires navigating a menu, moving a slider, and activating buttons. The scenario is that we want to add some items from an online shop to the watch list. To complete this module, add the following items to your watch list: $items.',
+        ),
+      ),
+    );
+  }
+}
+
+class _ControlsReminder extends StatelessWidget {
+  const _ControlsReminder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const ListTile(
-      title: Focus(
-        autofocus: true,
-        child: Text(
-          'To go back, swipe down then left with one finger in a continuous action. If multi-gestures are enabled, swipe with two fingers from the left or right side of the screen.',
-        ),
+      title: Text(
+        'Reminder that you can swipe left to navigate to the previous item, swipe right to navigate to the next item, and double tap to activate an element. To interact with a slider, navigate until the slider is selected and swipe up or down to move the slider.',
       ),
     );
   }
@@ -142,6 +161,8 @@ class _HomePageState extends State<HomePage> {
   final Map<String, int> _cart;
   final Map<String, int> _watchList;
 
+  final List<String> _targetKeys = ["3"];
+
   _HomePageState()
       : _cart = {},
         _watchList = {};
@@ -176,7 +197,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   bool isCompleted() {
-    return ["0", "3", "4"].every((key) => _watchList.containsKey(key));
+    return _targetKeys.every((key) => _watchList.containsKey(key));
   }
 
   @override
@@ -191,7 +212,8 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const _Instructions(),
+                  _Instructions(targetKeys: _targetKeys),
+                  const _ControlsReminder(),
                   const _Title(),
                   RangeSlider(
                     values: _currentRangeValues,
