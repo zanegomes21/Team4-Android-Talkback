@@ -2,28 +2,16 @@ import 'package:application/tutorial/two/practical/data_item.dart';
 import 'package:flutter/material.dart';
 
 class Item extends StatelessWidget {
-  final String name;
-  final int price;
-  final double? rating;
-  final String description;
+  final ItemData data;
 
-  const Item({
-    Key? key,
-    required this.name,
-    required this.price,
-    required this.description,
-    this.rating,
-  }) : super(key: key);
+  final ValueChanged<ItemData>? onAddToCart;
+  final ValueChanged<ItemData>? onAddToWatchList;
 
-  Item.fromData({
-    required ItemData data,
-  }) : this(
-          key: Key(data.id.toString()),
-          name: data.name,
-          price: data.priceCents,
-          description: data.description,
-          rating: data.rating,
-        );
+  Item({
+    required this.data,
+    this.onAddToCart,
+    this.onAddToWatchList,
+  }) : super(key: Key(data.id));
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +20,7 @@ class Item extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            name,
+            data.name,
             style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -43,8 +31,8 @@ class Item extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Price: \$${price / 100}"),
-                Text("Rating: ${rating ?? 'N/A'}"),
+                Text("Price: \$${data.priceCents / 100}"),
+                Text("Rating: ${data.rating}"),
               ],
             ),
           ),
@@ -52,14 +40,22 @@ class Item extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Add to Cart'),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Add to Watch List'),
-              ),
+              if (onAddToCart != null)
+                ElevatedButton(
+                  onPressed: () {
+                    onAddToCart!(data);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Add to Cart'),
+                ),
+              if (onAddToWatchList != null)
+                ElevatedButton(
+                  onPressed: () {
+                    onAddToWatchList!(data);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Add to Watch List'),
+                ),
             ],
           )
         ],
