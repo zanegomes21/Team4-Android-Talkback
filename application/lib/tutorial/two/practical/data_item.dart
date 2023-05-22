@@ -2,14 +2,14 @@ class ItemData {
   final int id;
   final String name;
   final double rating;
-  final int price;
+  final int priceCents;
   final String description;
 
   ItemData(
       {required this.id,
       required this.name,
       required this.rating,
-      required this.price,
+      required this.priceCents,
       required this.description});
 
   factory ItemData.fromJson(Map<String, dynamic> json) {
@@ -17,7 +17,7 @@ class ItemData {
         id: json['id'],
         name: json['name'],
         rating: json['rating'],
-        price: json['price'],
+        priceCents: json['price'],
         description: json['description']);
   }
 }

@@ -18,12 +18,11 @@ class Item extends StatelessWidget {
   }) : super(key: key);
 
   Item.fromData({
-    Key? key,
     required ItemData data,
   }) : this(
-          key: key,
+          key: Key(data.id.toString()),
           name: data.name,
-          price: data.price,
+          price: data.priceCents,
           description: data.description,
           rating: data.rating,
         );

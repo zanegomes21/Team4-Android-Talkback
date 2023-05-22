@@ -1,14 +1,33 @@
-import 'package:application/tutorial/two/practical/pricerangeslider.dart';
 import 'package:flutter/material.dart';
 
 import 'item.dart';
-import 'data_item.dart' show data;
+import 'data_item.dart' show ItemData, data;
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  static const double minRange = 0;
+  static const double maxRange = 100;
+  static const int divisions = 10;
+
+  Iterable<ItemData> _data = data;
+
+  RangeValues _currentRangeValues = const RangeValues(minRange, maxRange);
+
   void onRangeUpdate(RangeValues values) {
-    print("Range updated: ${values.start} - ${values.end}");
+    setState(() {
+      _data = data.where(
+        (d) =>
+            d.priceCents / 100 >= values.start &&
+            d.priceCents / 100 <= values.end,
+      );
+      print("Range updated: ${values.start} - ${values.end}");
+    });
   }
 
   @override
@@ -39,7 +58,22 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            PriceRangeSlider(onRangeUpdate: onRangeUpdate),
+            RangeSlider(
+              values: _currentRangeValues,
+              min: minRange,
+              max: maxRange,
+              divisions: divisions,
+              labels: RangeLabels(
+                _currentRangeValues.start.round().toString(),
+                _currentRangeValues.end.round().toString(),
+              ),
+              onChanged: (RangeValues values) {
+                setState(() {
+                  _currentRangeValues = values;
+                  onRangeUpdate(_currentRangeValues);
+                });
+              },
+            ),
             const Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Text(
@@ -52,8 +86,7 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                children: data
-                    .where((d) => d.price >= 0 && d.price <= 10000)
+                children: _data
                     .map(
                       (d) => GestureDetector(
                         onTap: () {
@@ -77,7 +110,7 @@ class HomePage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("Rating: ${d.rating}"),
-                                    Text("Price: ${d.price / 100}"),
+                                    Text("Price: ${d.priceCents / 100}"),
                                   ],
                                 ),
                               ),
