@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:application/tutorial/two/practical/data_item.dart';
 import 'package:flutter/material.dart';
 
