@@ -132,11 +132,14 @@ class _Completed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text(
-        "You have completed this module!",
-        style: TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
+      child: Focus(
+        autofocus: true,
+        child: Text(
+          "You have completed this module!",
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
