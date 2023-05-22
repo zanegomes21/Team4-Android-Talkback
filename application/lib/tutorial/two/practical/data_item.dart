@@ -1,5 +1,5 @@
 class ItemData {
-  final int id;
+  final String id;
   final String name;
   final double rating;
   final int priceCents;
@@ -24,7 +24,7 @@ class ItemData {
 
 var data = [
   {
-    "id": 0,
+    "id": "0",
     "name": "Tennis Ball",
     "rating": 3.0,
     "price": 200,
@@ -32,7 +32,7 @@ var data = [
         "This extra duty tennis ball is ideal for longer play on the courts. Perfect for all levels of tournament and recreational play.",
   },
   {
-    "id": 1,
+    "id": "1",
     "name": "Basketball",
     "rating": 4.5,
     "price": 300,
@@ -40,21 +40,21 @@ var data = [
         "This basketball is designed for indoor or outdoor play. It features a deep channel design for easier hand alignment and ball control.",
   },
   {
-    "id": 2,
+    "id": "2",
     "name": "Soccer Ball",
     "rating": 4.0,
     "price": 1000,
     "description": "This soccer ball is designed for indoor or outdoor play.",
   },
   {
-    "id": 3,
+    "id": "3",
     "name": "Baseball",
     "rating": 4.5,
     "price": 500,
     "description": "This baseball has a cork core and a leather cover.",
   },
   {
-    "id": 4,
+    "id": "4",
     "name": "Football",
     "rating": 4.0,
     "price": 1000,
@@ -62,7 +62,7 @@ var data = [
         "This football is ideal for recreational play or practice. It features a leather cover for durability and a deep pebble surface for grip.",
   },
   {
-    "id": 5,
+    "id": "5",
     "name": "Train Set",
     "rating": 4.0,
     "price": 10000,
@@ -70,7 +70,7 @@ var data = [
         "This train set is ideal for children. It features a train, tracks, and a station.",
   },
   {
-    "id": 6,
+    "id": "6",
     "name": "Doll",
     "rating": 4.0,
     "price": 2000,
@@ -78,7 +78,7 @@ var data = [
         "This doll is ideal for children. It can be dressed up in different outfits. Outfits sold separately.",
   },
   {
-    "id": 7,
+    "id": "7",
     "name": "Unicorn Plush",
     "rating": 4.0,
     "price": 8000,
@@ -86,7 +86,7 @@ var data = [
         "This unicorn plush is ideal for children. It is soft and cuddly.",
   },
   {
-    "id": 8,
+    "id": "8",
     "name": "Plastic Castle",
     "rating": 4.0,
     "price": 5000,
