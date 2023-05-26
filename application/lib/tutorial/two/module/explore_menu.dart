@@ -10,6 +10,8 @@ class ExploreMenuPage extends StatefulWidget {
 
 class _ExploreMenuPageState extends State<ExploreMenuPage> {
   bool _hasSpokenIntro = false; // Whether the intro has been spoken yet
+  final BorderSide _borderSideStyle =
+      BorderSide(width: 2.0, color: Colors.black);
 
   void _speakIntro() {
     SemanticsService.announce(
@@ -74,28 +76,28 @@ class _ExploreMenuPageState extends State<ExploreMenuPage> {
 
           // Apply different border styles based on the row position
           final borderStyle = isLastRow && isLastColumn
-            ? const Border(
-                top: BorderSide(width: 2.0, color: Colors.black),
-                left: BorderSide(width: 2.0, color: Colors.black),
-                bottom: BorderSide(width: 2.0, color: Colors.black),
-                right: BorderSide(width: 2.0, color: Colors.black),
-              )
-            : isLastColumn
-                ? const Border(
-                    top: BorderSide(width: 2.0, color: Colors.black),
-                    left: BorderSide(width: 2.0, color: Colors.black),
-                    right: BorderSide(width: 2.0, color: Colors.black),
-                  )
-                : isLastRow
-                    ? const Border(
-                        top: BorderSide(width: 2.0, color: Colors.black),
-                        left: BorderSide(width: 2.0, color: Colors.black),
-                        bottom: BorderSide(width: 2.0, color: Colors.black),
-                      )
-                    : const Border(
-                        top: BorderSide(width: 2.0, color: Colors.black),
-                        left: BorderSide(width: 2.0, color: Colors.black),
-                      );
+              ? Border(
+                  top: _borderSideStyle,
+                  left: _borderSideStyle,
+                  bottom: _borderSideStyle,
+                  right: _borderSideStyle,
+                )
+              : isLastColumn
+                  ? Border(
+                      top: _borderSideStyle,
+                      left: _borderSideStyle,
+                      right: _borderSideStyle,
+                    )
+                  : isLastRow
+                      ? Border(
+                          top: _borderSideStyle,
+                          left: _borderSideStyle,
+                          bottom: _borderSideStyle,
+                        )
+                      : Border(
+                          top: _borderSideStyle,
+                          left: _borderSideStyle,
+                        );
 
           return Container(
             decoration: BoxDecoration(
