@@ -10,7 +10,7 @@ class TutorialSix extends StatelessWidget {
     // scaffold page
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tutorial 2"),
+        title: const Text("Tutorial 6"),
       ),
       body: Center(
         child: Column(
@@ -24,7 +24,7 @@ class TutorialSix extends StatelessWidget {
                       builder: (context) => const TypeWithKeyboard()),
                 );
               },
-              child: const Text("typing with a virtual keyboard"),
+              child: const Text("Typing with a virtual keyboard"),
             ),
             ElevatedButton(
               onPressed: () {
