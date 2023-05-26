@@ -32,14 +32,14 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   TextDirection.ltr,
     // );
     // await player.setUrl("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
-    var content = await rootBundle
-        .load("assets/media_sound.mp3");
+    var content = await rootBundle.load("assets/media_sound.mp3");
     final directory = await getApplicationDocumentsDirectory();
     var file = File("${directory.path}/media_sound.mp3");
     file.writeAsBytesSync(content.buffer.asUint8List());
 
     await player.setFilePath(file.path);
-    await tts.speak("In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.");
+    await tts.speak(
+        "In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.");
   }
 
   void _speakIncreaseVolume() {
@@ -48,7 +48,8 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   TextDirection.ltr,
     // );
     tts.stop();
-    tts.speak("Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.");
+    tts.speak(
+        "Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.");
   }
 
   void _speakDecreaseVolume() {
@@ -57,16 +58,18 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     //   TextDirection.ltr,
     // );
     tts.stop();
-    tts.speak("Current volume is set above 75. Now that you've learned how to increase the volume, we will try decreasing the volume below 25. To decrease the volume, swipe down.");
+    tts.speak(
+        "Current volume is set above 75. Now that you've learned how to increase the volume, we will try decreasing the volume below 25. To decrease the volume, swipe down.");
   }
 
-  Future<void> _speakOutro() async{
+  Future<void> _speakOutro() async {
     // SemanticsService.announce(
     //   "Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.",
     //   TextDirection.ltr,
     // );
     tts.stop();
-    tts.speak("Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.");
+    tts.speak(
+        "Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.");
     await tts.awaitSpeakCompletion(true);
   }
 
@@ -84,9 +87,7 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
           title: const Text("Media Volume Control Module"),
         ),
         body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Container(
               margin: const EdgeInsets.all(25),
               height: 300,
@@ -98,52 +99,52 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
                 ),
               ),
             ),
-                Slider(
-                  value: _volume,
-                  min: 0,
-                  max: 100,
-                  divisions: 20,
-                  label: _volume.round().toString(),
-                  onChanged: (double value) async {
-                    double vol = value / 100;
-                    await player.setVolume(vol);
-                    if(value >= 75 && _hasSpokenIncreaseVolume){
-                      _speakDecreaseVolume();
-                      _hasSpokenDecreaseVolume = true;
-                    }
-                    if(value <= 25 && _hasSpokenDecreaseVolume){
-                      await _speakOutro();
-                      await player.pause();
-                      Navigator.pop(context);
-                    }
+            Slider(
+              value: _volume,
+              min: 0,
+              max: 100,
+              divisions: 20,
+              label: _volume.round().toString(),
+              onChanged: (double value) async {
+                double vol = value / 100;
+                await player.setVolume(vol);
+                if (value >= 75 && _hasSpokenIncreaseVolume) {
+                  _speakDecreaseVolume();
+                  _hasSpokenDecreaseVolume = true;
+                }
+                if (value <= 25 && _hasSpokenDecreaseVolume) {
+                  await _speakOutro();
+                  await player.pause();
+                  Navigator.pop(context);
+                }
 
-                    setState(() {
-                      _volume = value;
-                    });
-                  },
+                setState(() {
+                  _volume = value;
+                });
+              },
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedButton(
+                onPressed: () {
+                  player.play();
+                  if (_hasSpokenIntro && !_hasSpokenIncreaseVolume) {
+                    _speakIncreaseVolume();
+                    _hasSpokenIncreaseVolume = true;
+                  }
+                },
+                child: const Icon(Icons.play_arrow, semanticLabel: 'Play'),
+              ),
+              const SizedBox(width: 25),
+              ElevatedButton(
+                onPressed: () {
+                  player.pause();
+                },
+                child: const Icon(
+                  Icons.pause,
+                  semanticLabel: 'Pause',
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      ElevatedButton(
-                        onPressed: () {
-                          player.play();
-                          if (_hasSpokenIntro && !_hasSpokenIncreaseVolume) {
-                            _speakIncreaseVolume();
-                            _hasSpokenIncreaseVolume = true;
-                          }
-                        },
-                        child: const Icon(Icons.play_arrow),
-                      ),
-                      const SizedBox(width: 25),
-                      ElevatedButton(
-                        onPressed: () {
-                          player.pause();
-                        },
-                        child: const Icon(Icons.pause),
-                      ),
-                    ]),
+              ),
+            ]),
           ]),
         ));
   }
