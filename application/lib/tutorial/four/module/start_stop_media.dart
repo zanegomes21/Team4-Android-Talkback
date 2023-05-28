@@ -28,7 +28,9 @@ class _StartStopMediaState extends State<StartStopMedia> {
     super.initState();
 
     _controller = VideoPlayerController.asset('assets/video_test.mp4');
-    _initialiseVideoPlayerFuture = _controller.initialize();
+    Future.delayed(Duration(milliseconds: 1000));
+    _initialiseVideoPlayerFuture =
+        _controller.initialize().then((_) => setState(() {}));
   }
 
   @override
