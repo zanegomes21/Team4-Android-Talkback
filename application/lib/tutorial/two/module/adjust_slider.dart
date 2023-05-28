@@ -29,7 +29,7 @@ class AdjustSliderState extends State<AdjustSlider> {
         body: Center(
             child: Column(children: [
           Text(displayText),
-          Text(_currentValue.toString(), style: TextStyle(fontSize: 30)),
+          Text(_currentValue.toStringAsFixed(0), style: TextStyle(fontSize: 30)),
           Slider(
               value: _currentValue,
               onChanged: (value) {
