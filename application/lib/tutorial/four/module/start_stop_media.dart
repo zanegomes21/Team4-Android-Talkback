@@ -71,16 +71,15 @@ class _StartStopMediaState extends State<StartStopMedia> {
         future: _initialiseVideoPlayerFuture,
         builder: (context, snapshot) {
           if (_controller.value.isPlaying) {
-            _controller.pause();
-            if ((_hasPlayed == true) & (_hasPaused == false)) {
-              _hasPaused = true;
-              _speakOutro();
-              Navigator.pop(context);
-            }
-          } else {
-            _controller.play();
             _speakPause();
             _hasPlayed = true;
+          }
+          if (_hasPlayed == true & !_controller.value.isPlaying) {
+            _speakOutro();
+            _hasPaused = true;
+          }
+          if ((_hasPlayed == true) & (_hasPaused == true)) {
+            Navigator.pop(context);
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return AspectRatio(
