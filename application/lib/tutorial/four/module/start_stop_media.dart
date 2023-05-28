@@ -27,8 +27,7 @@ class _StartStopMediaState extends State<StartStopMedia> {
   void initState() {
     super.initState();
 
-    _controller =
-        VideoPlayerController.asset('/application/assets/video_test.mp4');
+    _controller = VideoPlayerController.asset('assets/video_test.mp4');
     _initialiseVideoPlayerFuture = _controller.initialize();
   }
 
@@ -71,6 +70,18 @@ class _StartStopMediaState extends State<StartStopMedia> {
       body: FutureBuilder(
         future: _initialiseVideoPlayerFuture,
         builder: (context, snapshot) {
+          if (_controller.value.isPlaying) {
+            _controller.pause();
+            if ((_hasPlayed == true) & (_hasPaused == false)) {
+              _hasPaused = true;
+              _speakOutro();
+              Navigator.pop(context);
+            }
+          } else {
+            _controller.play();
+            _speakPause();
+            _hasPlayed = true;
+          }
           if (snapshot.connectionState == ConnectionState.done) {
             return AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
@@ -82,27 +93,6 @@ class _StartStopMediaState extends State<StartStopMedia> {
             );
           }
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-              if ((_hasPlayed == true) & (_hasPaused == false)) {
-                _hasPaused = true;
-                _speakOutro();
-                Navigator.pop(context);
-              }
-            } else {
-              _controller.play();
-              _speakPause();
-              _hasPlayed = true;
-            }
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
       ),
     );
   }
