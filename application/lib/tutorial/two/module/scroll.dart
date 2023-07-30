@@ -1,93 +1,119 @@
+// This lesson contains two submodules. Firstly the user must scroll *down* to
+// reach a "Continue" button. Once pressed, they then must scroll "right" to
+// reach a "Finish" button. Once pressed, the lesson ends.
+//
+// VerticalScrollSubmodule is the entry point to this lesson.
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 
-class ScrollPage extends StatefulWidget {
-  const ScrollPage({super.key});
+class InstructionsCard extends StatelessWidget {
+  final String instruction;
 
-  @override
-  State<ScrollPage> createState() => _ScrollPageState();
-}
-
-class _ScrollPageState extends State<ScrollPage> {
-  bool _hasSpokenIntro = false; // Whether the intro has been spoken yet
-  final int _numButtons =
-      15; // Number of buttons to list, should be large enough to necessitate scrolling
-  Axis _axis = Axis.vertical; // Axis to align buttons
-  String _successButtonText = "Continue"; // Text to show on last button in list
-  final ButtonStyle _buttonStyle =
-      ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
-
-  void _speakIntro() {
-    SemanticsService.announce(
-      "To scroll down, place two fingers on the screen at the same time, then swipe upwards with both of them. To scroll up, swipe with two fingers in the opposite direction. To finish, find the Continue button at the bottom of this vertical menu, then double tap it to continue.",
-      TextDirection.ltr,
-    );
-  }
-
-  void _speakHorizontal() {
-    SemanticsService.announce(
-      "To scroll right, swipe left with two fingers. To scroll left, swipe with two fingers in the opposite direction. To finish, tap the Finish button at the far right of this page.",
-      TextDirection.ltr,
-    );
-  }
-
-  void _speakSuccess() {
-    SemanticsService.announce(
-      "You finished this module! Taking you back to the Tutorial.",
-      TextDirection.ltr,
-    );
-  }
-
-  void _onTapSuccessButton(BuildContext context) {
-    if (_axis == Axis.vertical) {
-      setState(() {
-        _axis = Axis.horizontal;
-        _successButtonText = "Finish";
-      });
-      _speakHorizontal();
-      return;
-    }
-
-    _speakSuccess();
-    Navigator.pop(context);
-  }
+  const InstructionsCard({super.key, required this.instruction});
 
   @override
   Widget build(BuildContext context) {
-    // Speak intro if first time opening this page.
-    if (!_hasSpokenIntro) {
-      _speakIntro();
-      _hasSpokenIntro = true;
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // Disable back button
-        title: const Text("Scrolling Module"),
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(10),
+      decoration:
+          BoxDecoration(border: Border.all(color: Colors.blueAccent, width: 5)),
+      child: Text(
+        instruction,
       ),
-      body: Center(
-          child: ListView.separated(
-        scrollDirection: _axis,
-        padding: const EdgeInsets.all(30),
-        itemCount: _numButtons,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 100,
-            padding: _axis == Axis.vertical
-                ? const EdgeInsets.symmetric(vertical: 20)
-                : const EdgeInsets.symmetric(horizontal: 20),
-            child: index == _numButtons - 1
-                ? ElevatedButton(
-                    onPressed: () {
-                      _onTapSuccessButton(context);
-                    },
-                    child: Text(_successButtonText))
-                : ElevatedButton(
-                    onPressed: null, child: Text('Item ${index + 1}')),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      )),
     );
+  }
+}
+
+class VerticalScrollSubmodule extends _ScrollPage {
+  @override
+  Axis get axis => Axis.vertical;
+  @override
+  String get introInstruction =>
+      "To scroll down, place two fingers on the screen at the same time, then swipe upwards with both of them. To scroll up, swipe with two fingers in the opposite direction. To finish, find the Continue button at the bottom of this vertical menu, then double tap it to continue.";
+  // TODO: Consider having more descriptive semantic text so screenreader says something about moving on to next submodule, while button still just shows "Continue"
+  @override
+  String get successText => "Continue";
+
+  const VerticalScrollSubmodule({super.key});
+
+  @override
+  onSuccess(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => HorizontalScrollModule(prevContext: context)),
+    );
+  }
+}
+
+class HorizontalScrollModule extends _ScrollPage {
+  @override
+  Axis get axis => Axis.horizontal;
+  @override
+  String get introInstruction =>
+      "To scroll right, swipe left with two fingers. To scroll left, swipe with two fingers in the opposite direction. To finish, tap the Finish button at the far right of this page.";
+  @override
+  String get successText => "Finish";
+
+  final BuildContext prevContext;
+
+  const HorizontalScrollModule({super.key, required this.prevContext});
+
+  @override
+  onSuccess(BuildContext context) {
+    // Not pretty but it works, have to pop both this submodule and vertical submodule
+    Navigator.pop(context);
+    Navigator.pop(prevContext);
+  }
+}
+
+abstract class _ScrollPage extends StatelessWidget {
+  abstract final Axis axis;
+  abstract final String introInstruction;
+  abstract final String successText;
+  final int _numButtons = 15;
+  final double _globalPadding = 30;
+  final double _itemPadding = 20;
+
+  const _ScrollPage({super.key});
+
+  onSuccess(BuildContext context);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false, // Disable back button
+          title: const Text("Scrolling Module"),
+        ),
+        body: Column(
+          children: [
+            InstructionsCard(instruction: introInstruction),
+            Expanded(
+                child: ListView.separated(
+              scrollDirection: axis,
+              padding: EdgeInsets.all(_globalPadding),
+              itemCount: _numButtons,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 100,
+                  padding: axis == Axis.vertical
+                      ? EdgeInsets.symmetric(vertical: _itemPadding)
+                      : EdgeInsets.symmetric(horizontal: _itemPadding),
+                  child: index == _numButtons - 1
+                      ? ElevatedButton(
+                          onPressed: () {
+                            onSuccess(context);
+                          },
+                          child: Text(successText))
+                      : ElevatedButton(
+                          onPressed: null, child: Text('Item ${index + 1}')),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+            )),
+          ],
+        ));
   }
 }

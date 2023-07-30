@@ -31,7 +31,8 @@ class TutorialTwo extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ScrollPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const VerticalScrollSubmodule()),
                 );
               },
               child: const Text("Scrolling Module"),
@@ -40,7 +41,8 @@ class TutorialTwo extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ExploreMenuPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const ExploreMenuPage()),
                 );
               },
               child: const Text("Explore Menu Module"),
