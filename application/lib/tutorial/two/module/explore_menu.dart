@@ -57,7 +57,7 @@ class _ExploreMenuPageState extends State<ExploreMenuPage> {
                 _intro_text,
               ),
             ),
-            new Expanded(
+            Expanded(
                 child: GridView.count(
               // Create a grid with 3 columns. If you change the scrollDirection to
               // horizontal, this produces 2 rows.

@@ -3,26 +3,8 @@
 // reach a "Finish" button. Once pressed, the lesson ends.
 //
 // VerticalScrollSubmodule is the entry point to this lesson.
+import 'package:application/common/instruction_card.dart';
 import 'package:flutter/material.dart';
-
-class InstructionsCard extends StatelessWidget {
-  final String instruction;
-
-  const InstructionsCard({super.key, required this.instruction});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(10),
-      decoration:
-          BoxDecoration(border: Border.all(color: Colors.blueAccent, width: 5)),
-      child: Text(
-        instruction,
-      ),
-    );
-  }
-}
 
 class VerticalScrollSubmodule extends _ScrollPage {
   @override
