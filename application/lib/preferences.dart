@@ -7,7 +7,3 @@ class SharedPrefService {
     pref = await SharedPreferences.getInstance();
   }
 }
-
-
-//  Store the language as an int (enum?) which we can move through with a switch
-//  statement
