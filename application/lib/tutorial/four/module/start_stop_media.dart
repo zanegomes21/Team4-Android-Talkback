@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:chewie/chewie.dart';
 
 class StartStopMedia extends StatefulWidget {
   const StartStopMedia({super.key});
@@ -10,8 +11,11 @@ class StartStopMedia extends StatefulWidget {
 }
 
 class _StartStopMediaState extends State<StartStopMedia> {
-  late VideoPlayerController _controller;
-  late Future<void> _initialiseVideoPlayerFuture;
+  late VideoPlayerController _videoPlayerController;
+  late ChewieController _chewieController;
+
+  //late Future<void> _initialiseVideoPlayerFuture;
+
   bool _spokenIntro = false;
   bool _hasPlayed = false;
   bool _hasPaused = false;
@@ -25,17 +29,26 @@ class _StartStopMediaState extends State<StartStopMedia> {
 
   @override
   void initState() {
+    //NEED TO ADD LISTENERS FOR WHEN VIDEO PAUSED/PLAYED ETC!!!!!!
     super.initState();
 
-    _controller = VideoPlayerController.asset('assets/video_test.mp4');
-    Future.delayed(Duration(milliseconds: 1000));
-    _initialiseVideoPlayerFuture =
-        _controller.initialize().then((_) => setState(() {}));
+    _videoPlayerController =
+        VideoPlayerController.asset('assets/video_test.mp4');
+
+    _videoPlayerController.initialize().then(
+          (_) => setState(
+            () => _chewieController = ChewieController(
+              videoPlayerController: _videoPlayerController,
+              aspectRatio: 16 / 9,
+            ),
+          ),
+        );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _videoPlayerController.dispose();
+    _chewieController.dispose();
     super.dispose();
   }
 
@@ -57,6 +70,17 @@ class _StartStopMediaState extends State<StartStopMedia> {
     await tts.awaitSpeakCompletion(true);
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AspectRatio(
+            aspectRatio: 16 / 9, child: Chewie(controller: _chewieController)),
+      ],
+    );
+  }
+  /*
   @override
   Widget build(BuildContext context) {
     if (!_spokenIntro) {
@@ -97,4 +121,5 @@ class _StartStopMediaState extends State<StartStopMedia> {
       ),
     );
   }
+  */
 }
