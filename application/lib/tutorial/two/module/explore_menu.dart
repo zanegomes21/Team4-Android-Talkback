@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 
 class ExploreMenuPage extends StatefulWidget {
   const ExploreMenuPage({super.key});
@@ -9,17 +8,11 @@ class ExploreMenuPage extends StatefulWidget {
 }
 
 class _ExploreMenuPageState extends State<ExploreMenuPage> {
-  final BorderSide _borderSideStyle =
+  static const BorderSide _borderSideStyle =
       BorderSide(width: 2.0, color: Colors.black);
-  final String _intro_text =
+  static const String _introText =
       "Welcome! In this module, you will learn how to use explore by touch. You can select different elements by holding your finger on the screen and moving it over another element you'd like to select. To complete the lesson, use explore by touch to find the Finish Lesson button. Remember to drag your finger in any direction slowly around screen, and make sure your finger is touching the screen at all times. You may now start.";
-
-  void _speakSuccess() {
-    SemanticsService.announce(
-      "You have completed the lesson. Sending you to the lesson page.",
-      TextDirection.ltr,
-    );
-  }
+  static const String _finishButtonText = 'Finish Lesson';
 
   // Define the list of button titles
   List<String> buttonTitles = [
@@ -33,7 +26,7 @@ class _ExploreMenuPageState extends State<ExploreMenuPage> {
     'Cricket',
     'March',
     'Elderberry',
-    'Finish Lesson',
+    _finishButtonText,
     'May',
   ];
 
@@ -53,8 +46,8 @@ class _ExploreMenuPageState extends State<ExploreMenuPage> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.blueAccent, width: 5)),
-              child: Text(
-                _intro_text,
+              child: const Text(
+                _introText,
               ),
             ),
             Expanded(
@@ -75,25 +68,25 @@ class _ExploreMenuPageState extends State<ExploreMenuPage> {
 
                 // Apply different border styles based on the row position
                 final borderStyle = isLastRow && isLastColumn
-                    ? Border(
+                    ? const Border(
                         top: _borderSideStyle,
                         left: _borderSideStyle,
                         bottom: _borderSideStyle,
                         right: _borderSideStyle,
                       )
                     : isLastColumn
-                        ? Border(
+                        ? const Border(
                             top: _borderSideStyle,
                             left: _borderSideStyle,
                             right: _borderSideStyle,
                           )
                         : isLastRow
-                            ? Border(
+                            ? const Border(
                                 top: _borderSideStyle,
                                 left: _borderSideStyle,
                                 bottom: _borderSideStyle,
                               )
-                            : Border(
+                            : const Border(
                                 top: _borderSideStyle,
                                 left: _borderSideStyle,
                               );
@@ -105,8 +98,7 @@ class _ExploreMenuPageState extends State<ExploreMenuPage> {
                   child: Center(
                     child: TextButton(
                       onPressed: () {
-                        if (title == 'Finish Lesson') {
-                          _speakSuccess();
+                        if (title == _finishButtonText) {
                           Navigator.pop(context);
                         }
                       },
