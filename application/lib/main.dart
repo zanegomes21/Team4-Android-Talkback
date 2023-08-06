@@ -1,13 +1,14 @@
-import 'package:application/preferences.dart';
 import 'package:application/routes.dart';
 import 'package:application/tutorial/six/tutorial_six.dart';
 import 'package:flutter/material.dart';
 import 'package:application/tutorial/tutorial_main.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
+// import 'package:application/preferences.dart';
+import 'package:application/languages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPrefService.init();
+  // await SharedPrefService.init();
   //  SharedPrefService.pref.
   runApp(const MyApp());
 }
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           Routes.tutorials: (context) => const TutorialMain(),
           Routes.tutorialTwo: (context) => const TutorialTwo(),
           Routes.tutorialSix: (context) => const TutorialSix(),
+          Routes.languages: (context) => const Language(),
         });
   }
 }
@@ -141,6 +143,11 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Tutorials',
             backgroundColor: Colors.blue,
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'Language',
+            backgroundColor: Colors.blue,
+          ),
         ],
         onTap: ((index) {
           String path = Routes.home;
@@ -154,6 +161,10 @@ class _MyHomePageState extends State<MyHomePage> {
             case 2:
               // tutorials
               path = Routes.tutorialSix;
+              break;
+            case 3:
+              // languages
+              path = Routes.languages;
               break;
           }
           Navigator.pushNamed(context, path);
