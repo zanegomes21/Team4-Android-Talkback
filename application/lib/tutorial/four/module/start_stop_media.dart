@@ -12,7 +12,7 @@ class StartStopMedia extends StatefulWidget {
 
 class _StartStopMediaState extends State<StartStopMedia> {
   late VideoPlayerController _videoPlayerController;
-  late ChewieController _chewieController;
+  ChewieController? _chewieController;
 
   bool _spokenIntro = false;
   bool _hasPlayed = false;
@@ -25,31 +25,24 @@ class _StartStopMediaState extends State<StartStopMedia> {
     tts.setVolume(1.0);
   }
 
-  @override
-  void initState() {
-    super.initState();
-
+  Future initializeVideo() async {
     _videoPlayerController =
         VideoPlayerController.asset('assets/video_test.mp4');
 
-    _videoPlayerController.initialize();
-
-    /*
-    .then(
-          (_) => setState(
-            () => _chewieController = ChewieController(
-              videoPlayerController: _videoPlayerController,
-              aspectRatio: 16 / 9,
-            ),
-          ),
-        );
-    */
+    await _videoPlayerController.initialize();
 
     _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
-      autoPlay: true,
-      looping: true,
-    );
+        videoPlayerController: _videoPlayerController,
+        autoPlay: true,
+        looping: true);
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    initializeVideo();
+    super.initState();
 
     _videoPlayerController.addListener(() {
       setState(() {
@@ -71,7 +64,7 @@ class _StartStopMediaState extends State<StartStopMedia> {
   @override
   void dispose() {
     _videoPlayerController.dispose();
-    _chewieController.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -98,12 +91,18 @@ class _StartStopMediaState extends State<StartStopMedia> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AspectRatio(
-            aspectRatio: 16 / 9, child: Chewie(controller: _chewieController)),
-      ],
+    if (_chewieController == null) {
+      return Container(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(title: Text("Video Test")),
+      body: Container(
+          height: 250,
+          child: Chewie(
+            controller: _chewieController!,
+          )),
     );
   }
 }
