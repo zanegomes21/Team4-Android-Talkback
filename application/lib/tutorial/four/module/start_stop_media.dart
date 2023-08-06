@@ -14,8 +14,6 @@ class _StartStopMediaState extends State<StartStopMedia> {
   late VideoPlayerController _videoPlayerController;
   late ChewieController _chewieController;
 
-  //late Future<void> _initialiseVideoPlayerFuture;
-
   bool _spokenIntro = false;
   bool _hasPlayed = false;
   bool _hasPaused = false;
@@ -29,7 +27,6 @@ class _StartStopMediaState extends State<StartStopMedia> {
 
   @override
   void initState() {
-    //NEED TO ADD LISTENERS FOR WHEN VIDEO PAUSED/PLAYED ETC!!!!!!
     super.initState();
 
     _videoPlayerController =
@@ -43,6 +40,22 @@ class _StartStopMediaState extends State<StartStopMedia> {
             ),
           ),
         );
+
+    _videoPlayerController.addListener(() {
+      setState(() {
+        if (_spokenIntro) {
+          _speakPause();
+        }
+        if (_hasPlayed == true & !_videoPlayerController.value.isPlaying) {
+          _speakOutro();
+        }
+        if ((_hasPlayed == true) & (_hasPaused == true)) {
+          Navigator.pop(context);
+        }
+      });
+    });
+
+    _speakIntro();
   }
 
   @override
@@ -55,18 +68,21 @@ class _StartStopMediaState extends State<StartStopMedia> {
   Future<void> _speakIntro() async {
     await tts.speak(
         "In this tutorial, you will be learning how to start and stop a video. To start, double tap your screen to bring up the media controller and find the play button. Dobule tap to start playing the video");
+    _spokenIntro = true;
   }
 
   void _speakPause() {
     tts.stop();
     tts.speak(
         "Great job! You have played the video. Now we will try to pause the video. To pause the video, bring up the media controller and find the pause button. Double tap on the button to pause the video.");
+    _hasPlayed = true;
   }
 
   Future<void> _speakOutro() async {
     tts.stop();
     tts.speak(
         "Great job! You have paused the video. Congratulations on completing this lesson on how to start and stop a video. Sending you back to the lesson page.");
+    _hasPaused = true;
     await tts.awaitSpeakCompletion(true);
   }
 
@@ -80,46 +96,4 @@ class _StartStopMediaState extends State<StartStopMedia> {
       ],
     );
   }
-  /*
-  @override
-  Widget build(BuildContext context) {
-    if (!_spokenIntro) {
-      _speakIntro();
-      _spokenIntro = true;
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Start and Stop Media Module'),
-      ),
-      body: FutureBuilder(
-        future: _initialiseVideoPlayerFuture,
-        builder: (context, snapshot) {
-          if (_controller.value.isPlaying) {
-            _speakPause();
-            _hasPlayed = true;
-          }
-          if (_hasPlayed == true & !_controller.value.isPlaying) {
-            _speakOutro();
-            _hasPaused = true;
-          }
-          if ((_hasPlayed == true) & (_hasPaused == true)) {
-            Navigator.pop(context);
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            return AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
-  }
-  */
 }
