@@ -32,7 +32,10 @@ class _StartStopMediaState extends State<StartStopMedia> {
     _videoPlayerController =
         VideoPlayerController.asset('assets/video_test.mp4');
 
-    _videoPlayerController.initialize().then(
+    _videoPlayerController.initialize();
+
+    /*
+    .then(
           (_) => setState(
             () => _chewieController = ChewieController(
               videoPlayerController: _videoPlayerController,
@@ -40,6 +43,13 @@ class _StartStopMediaState extends State<StartStopMedia> {
             ),
           ),
         );
+    */
+
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController,
+      autoPlay: true,
+      looping: true,
+    );
 
     _videoPlayerController.addListener(() {
       setState(() {
