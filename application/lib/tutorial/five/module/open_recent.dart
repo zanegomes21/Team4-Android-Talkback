@@ -120,7 +120,12 @@ class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
                       if (snapshot.hasData) {
                         _speakLines(snapshot.data!, introSpeech);
                       }
-                      return const SizedBox();
+                      return Column(
+                        children: [
+                          const SizedBox(),
+                          Text(introSpeech), // Display the speech content
+                        ],
+                      );
                     } else {
                       return const CircularProgressIndicator();
                     }
@@ -135,7 +140,12 @@ class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
                       if (snapshot.hasData) {
                         _speakLines(snapshot.data!, middleSpeech);
                       }
-                      return const SizedBox();
+                      return Column(
+                        children: [
+                          const SizedBox(),
+                          Text(middleSpeech), // Display the speech content
+                        ],
+                      );
                     } else {
                       return const CircularProgressIndicator();
                     }
@@ -150,7 +160,12 @@ class _OpenRecent extends State<OpenRecent> with WidgetsBindingObserver {
                       if (snapshot.hasData) {
                         _speakLines(snapshot.data!, endSpeech);
                       }
-                      return const SizedBox();
+                      return Column(
+                        children: [
+                          const SizedBox(),
+                          Text(endSpeech), // Display the speech content
+                        ],
+                      );
                     } else {
                       return const CircularProgressIndicator();
                     }
