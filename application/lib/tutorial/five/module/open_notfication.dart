@@ -134,7 +134,12 @@ class _OpenNotification extends State<OpenNotification> with WidgetsBindingObser
                           if (snapshot.hasData) {
                             _speakLines(snapshot.data!, introSpeech);
                           }
-                          return const SizedBox();
+                          return Column(
+                            children: [
+                              const SizedBox(),
+                              Text(introSpeech), // Display the speech content
+                            ],
+                          );
                         } else {
                           return const CircularProgressIndicator();
                         }
@@ -149,7 +154,12 @@ class _OpenNotification extends State<OpenNotification> with WidgetsBindingObser
                           if (snapshot.hasData) {
                             _speakLines(snapshot.data!, feedbackSpeech1);
                           }
-                          return const SizedBox();
+                          return Column(
+                            children: [
+                              const SizedBox(),
+                              Text(feedbackSpeech1), // Display the speech content
+                            ],
+                          );
                         } else {
                           return const CircularProgressIndicator();
                         }
@@ -164,7 +174,12 @@ class _OpenNotification extends State<OpenNotification> with WidgetsBindingObser
                           if (snapshot.hasData) {
                             _speakLines(snapshot.data!, feedbackSpeech2);
                           }
-                          return const SizedBox();
+                          return Column(
+                            children: [
+                              const SizedBox(),
+                              Text(feedbackSpeech2), // Display the speech content
+                            ],
+                          );
                         } else {
                           return const CircularProgressIndicator();
                         }
@@ -179,7 +194,12 @@ class _OpenNotification extends State<OpenNotification> with WidgetsBindingObser
                           if (snapshot.hasData) {
                             _speakLines(snapshot.data!, feedbackSpeech3);
                           }
-                          return const SizedBox();
+                          return Column(
+                            children: [
+                              const SizedBox(),
+                              Text(feedbackSpeech3), // Display the speech content
+                            ],
+                          );
                         } else {
                           return const CircularProgressIndicator();
                         }
@@ -194,7 +214,12 @@ class _OpenNotification extends State<OpenNotification> with WidgetsBindingObser
                           if (snapshot.hasData) {
                             _speakLines(snapshot.data!, endSpeech);
                           }
-                          return const SizedBox();
+                          return Column(
+                            children: [
+                              const SizedBox(),
+                              Text(endSpeech), // Display the speech content
+                            ],
+                          );
                         } else {
                           return const CircularProgressIndicator();
                         }
