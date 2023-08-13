@@ -10,13 +10,11 @@ enum GestureType {
 
 class GestureMiniGame extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return GestureMiniGameState();
-  }
+  State<StatefulWidget> createState() => GestureMiniGameState();
 }
 
 class GestureMiniGameState extends State<GestureMiniGame> {
-  late GestureType currentGesture;
+  GestureType currentGesture = GestureType.DoubleTap;
   String instructionText = 'Game Starting...';
   bool isGameInProgress = false;
 
@@ -37,8 +35,8 @@ class GestureMiniGameState extends State<GestureMiniGame> {
               onDoubleTap: () => checkGesture(GestureType.DoubleTap),
               onLongPress: () => checkGesture(GestureType.LongPress),
               onVerticalDragEnd: (_) => checkGesture(GestureType.VerticalSwipe),
-              onHorizontalDragEnd: (_) => checkGesture(GestureType.HorizontalSwipe),
-
+              onHorizontalDragEnd: (_) =>
+                  checkGesture(GestureType.HorizontalSwipe),
               child: Text(instructionText, style: TextStyle(fontSize: 20)),
             )
           ],
@@ -50,10 +48,6 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   void startGame() {
     setState(() {
       isGameInProgress = true;
-    });
-
-    // Show "Get Ready!" for 2 seconds before starting the game
-    Future.delayed(Duration(seconds: 2), () {
       getNextGesture();
     });
   }
@@ -66,9 +60,8 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   }
 
   GestureType getRandomGesture() {
-    Random random = Random();
-    int randomIndex = random.nextInt(GestureType.values.length);
-    return GestureType.values[randomIndex];
+    final random = Random();
+    return GestureType.values[random.nextInt(GestureType.values.length)];
   }
 
   String getGestureInstructionText(GestureType gesture) {
@@ -87,10 +80,8 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   }
 
   void checkGesture(GestureType detectedGesture) {
-    if (isGameInProgress) {
-      if (currentGesture == detectedGesture) {
-        getNextGesture();
-      }
+    if (isGameInProgress && currentGesture == detectedGesture) {
+      getNextGesture();
     }
   }
 }
