@@ -49,17 +49,20 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   }
 
   void startGame() {
-    setState(() {
+    setState(() async {
       isGameInProgress = true;
+      String startGameText = "Game Starting!";
+      await flutterTts.speak(startGameText);
       getNextGesture();
     });
   }
 
-  void getNextGesture() {
+  Future<void> getNextGesture() async {
     setState(() {
       currentGesture = getRandomGesture();
       instructionText = getGestureInstructionText(currentGesture);
     });
+    await flutterTts.speak(instructionText);
   }
 
   GestureType getRandomGesture() {
@@ -82,8 +85,10 @@ class GestureMiniGameState extends State<GestureMiniGame> {
     }
   }
 
-  void checkGesture(GestureType detectedGesture) {
+  Future<void> checkGesture(GestureType detectedGesture) async {
     if (isGameInProgress && currentGesture == detectedGesture) {
+      String congrats = "Good Job!";
+      await flutterTts.speak(congrats);
       getNextGesture();
     }
   }
