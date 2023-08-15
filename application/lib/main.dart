@@ -1,8 +1,10 @@
 import 'package:application/routes.dart';
+import 'package:application/tutorial/six/tutorial_six.dart';
 import 'package:flutter/material.dart';
 import 'package:application/tutorial/tutorial_main.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
 import 'package:application/tutorial/three/tutorial_three.dart';
+import 'package:application/tutorial/four/tutorial_four.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
           Routes.tutorials: (context) => const TutorialMain(),
           Routes.tutorialTwo: (context) => const TutorialTwo(),
           Routes.tutorialThree: (context) => const TutorialThree(),
+          Routes.tutorialFour: (context) => const TutorialFour(),
+          Routes.tutorialSix: (context) => const TutorialSix(),
         });
   }
 }
@@ -99,7 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: style,
-              onPressed: null,
+              onPressed: () =>
+                  {Navigator.pushNamed(context, Routes.tutorialFour)},
               child: const Text('Tutorial 4'),
             ),
             ElevatedButton(
@@ -109,7 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: style,
-              onPressed: null,
+              onPressed: () =>
+                  {Navigator.pushNamed(context, Routes.tutorialSix)},
               child: const Text('Tutorial 6'),
             ),
             ElevatedButton(
@@ -149,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
               break;
             case 2:
               // tutorials
-              path = Routes.tutorialTwo;
+              path = Routes.tutorialSix;
               break;
           }
           Navigator.pushNamed(context, path);
