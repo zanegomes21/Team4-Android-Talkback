@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:application/routes.dart';
+import 'package:flutter/semantics.dart';
 
 class _ScaledText extends StatelessWidget {
   final String text;
@@ -16,8 +17,6 @@ class _ScaledText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(border: Border.all(color: const Color(0xFF0000FF))),
       margin: margin,
       child: Text(
         text,
@@ -30,7 +29,7 @@ class _ScaledText extends StatelessWidget {
 
 StatelessWidget _mainTitle = const _ScaledText(
     text: 'Baking recipes',
-    margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
+    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
     textScaleFactor: 3,
     textAlign: TextAlign.center);
 
@@ -72,6 +71,8 @@ class LabelledImage extends StatelessWidget {
 
 class Tutorial3Challenge extends StatelessWidget {
   const Tutorial3Challenge({super.key});
+  final String instructions =
+      'Welcome to Lesson 3\'s challenge. In this challenge you will be presented with a page containing baking recipes. Feel free to navigate through the different page elements using the appropriate reading controls. To complete the challenge, navigate to the cookie recipe and check the checkbox for the following ingredient … 1 egg';
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +86,13 @@ class Tutorial3Challenge extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Semantics(
+                label:
+                    'Button, instructions. Double-tap to hear the instructions',
+                child: ElevatedButton(
+                    onPressed: () => SemanticsService.announce(
+                        instructions, TextDirection.ltr),
+                    child: const Text('INSTRUCTIONS'))),
             _mainTitle,
             const _RecipeTitle(text: 'Brownies'),
             const LabelledImage(
@@ -254,6 +262,9 @@ class BrownieRecipe extends Tutorial3Recipe {
 }
 
 class CookieRecipe extends Tutorial3Recipe {
+  final String successText =
+      'You have successfully completed Lesson 3\'s challenge. Sending you to the main menu.';
+
   @override
   String get title => 'Cookie recipe';
 
@@ -283,7 +294,8 @@ class CookieRecipe extends Tutorial3Recipe {
 
   @override
   void successCallback(BuildContext context) {
-    print('You completed the module!');
+    // SemanticsService.announce(successText, TextDirection.ltr)
+    //     .then((value) => print('Only after it\'s finished'));
     Navigator.popUntil(context, ModalRoute.withName(Routes.tutorialThree));
   }
 
