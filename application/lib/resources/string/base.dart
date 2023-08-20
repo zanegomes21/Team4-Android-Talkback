@@ -1,5 +1,6 @@
 /// Supported languages across the application
 enum Language {
+  unset,
   english,
   french,
   spanish;
@@ -12,7 +13,7 @@ enum Language {
 class LanguageSupport<T> {
   static Language _language = Language.english;
 
-  static void _setLanguage(Language language) {
+  static void setLanguage(Language language) {
     LanguageSupport._language = language;
   }
 
@@ -69,15 +70,15 @@ class _Example {
 }
 
 void main() {
-  LanguageSupport._setLanguage(Language.english);
+  // LanguageSupport._setLanguage(Language.english);
   print(_exampleStrings.getInstance().first);
   print(_exampleStrings.getInstance().second);
   print(_exampleStrings.getInstance().third);
-  LanguageSupport._setLanguage(Language.french);
+  // LanguageSupport._setLanguage(Language.french);
   print(_exampleStrings.getInstance().first);
   print(_exampleStrings.getInstance().second);
   print(_exampleStrings.getInstance().third);
-  LanguageSupport._setLanguage(Language.spanish);
+  // LanguageSupport._setLanguage(Language.spanish);
   print(_exampleStrings.getInstance().first);
   print(_exampleStrings.getInstance().second);
   print(_exampleStrings.getInstance().third);
