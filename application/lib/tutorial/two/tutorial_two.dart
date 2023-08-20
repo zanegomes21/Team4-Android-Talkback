@@ -2,6 +2,7 @@ import 'package:application/tutorial/two/module/adjust_slider.dart';
 import 'package:application/tutorial/two/module/go_back.dart';
 import 'package:application/tutorial/two/module/scroll.dart';
 import 'package:application/tutorial/two/module/explore_menu.dart';
+import 'package:application/tutorial/two/practical/homepage.dart';
 import 'package:flutter/material.dart';
 
 class TutorialTwo extends StatelessWidget {
@@ -48,14 +49,23 @@ class TutorialTwo extends StatelessWidget {
               child: const Text("Explore Menu Module"),
             ),
             ElevatedButton(
-                onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AdjustSlider()),
-                      )
-                    },
-                child: const Text("Adjust slider module"))
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AdjustSlider()),
+                );
+              },
+              child: const Text("Adjust slide module"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+              },
+              child: const Text("Practical Application"),
+            ),
           ],
         ),
       ),
