@@ -1,6 +1,7 @@
 import 'package:application/common/tutorial.dart';
+import 'package:application/tutorial/three/module/challenge.dart';
 
 const TutorialMenu tutorialThree =
     TutorialMenu(title: "Tutorial 3", moduleButtons: [
-  // TutorialMenuButton(title: "Adjust reading controls", module: GoBack()),
+  TutorialMenuButton(title: 'Challenge', module: Tutorial3Challenge()),
 ]);
