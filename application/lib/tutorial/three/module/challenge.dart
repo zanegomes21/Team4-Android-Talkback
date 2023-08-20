@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:application/routes.dart';
 
 class _ScaledText extends StatelessWidget {
   final String text;
@@ -97,7 +98,7 @@ class Tutorial3Challenge extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Tutorial3BrowniePage()),
+                            builder: (context) => const BrownieRecipe()),
                       )
                     },
                 child: const Text('Go to brownie recipe')),
@@ -107,7 +108,16 @@ class Tutorial3Challenge extends StatelessWidget {
                 imageName: 'assets/images/cookie.jpeg'),
             const _RecipeDescription(
                 text:
-                    'This scrumptious and chewy chocolate-chip cookie recipe is guaranteed to satisfy your sweet tooth!')
+                    'This scrumptious and chewy chocolate-chip cookie recipe is guaranteed to satisfy your sweet tooth!'),
+            ElevatedButton(
+                onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CookieRecipe()),
+                      )
+                    },
+                child: const Text('Go to cookie recipe')),
           ],
         )));
   }
@@ -115,8 +125,9 @@ class Tutorial3Challenge extends StatelessWidget {
 
 class Ingredient extends StatefulWidget {
   final String name;
+  final Function? onChanged;
 
-  const Ingredient({required this.name, super.key});
+  const Ingredient({required this.name, this.onChanged, super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -137,29 +148,26 @@ class _IngredientState extends State<Ingredient> {
         setState(() {
           isChecked = value ?? false;
         });
+        widget.onChanged?.call();
       },
     );
   }
 }
 
-class Tutorial3BrowniePage extends StatelessWidget {
-  static const List<String> ingredients = [
-    '125 grams of unsalted butter',
-    '125 grams of dark baking chocolate',
-    '3 eggs, lightly whisked',
-    '1 and 1/2 cups of white sugar',
-    '3/4 cups of plain flour',
-    '1/4 cup of Dutch cocoa powder',
-    '1 teaspoon of vanilla extract',
-    'Pinch of salt'
-  ];
-  static const List<String> methodSteps = [
-    'Step 1: Preheat oven to 180C or 160C fan forced. Grease a 20cm square cake pan and line with baking paper.',
-    'Step 2: Place butter and chocolate in a heatproof bowl over a saucepan of simmering water (don\'t let the bowl touch the water). Stire with a metal spoon until melted. Remove from heat. Quickly stir in egg, sugar, flour, cocoa powder, vanilla and salt until just combined. Pour into prepared pan.',
-    'Step 3: Bake for 30 minutes or until a skewer inserted in the centre comes out with moist crumbs clinging. Set aside to cool completely.'
-  ];
+abstract class Tutorial3Recipe extends StatelessWidget {
+  List<String> get ingredients;
+  List<String> get methodSteps;
+  LabelledImage get image;
+  String get title;
 
-  const Tutorial3BrowniePage({super.key});
+  void successCallback(BuildContext context) {}
+  bool checkSuccess(String checkboxText) {
+    return false;
+  }
+
+  // int get successIndex => -1;
+
+  const Tutorial3Recipe({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -174,10 +182,8 @@ class Tutorial3BrowniePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const _RecipeTitle(text: 'Brownie recipe'),
-            const LabelledImage(
-                label: 'Picture of some brownies',
-                imageName: 'assets/images/brownie.jpeg'),
+            _RecipeTitle(text: title),
+            image,
             const _ScaledText(
               text: 'Ingredients',
               margin: EdgeInsets.symmetric(vertical: 10),
@@ -187,8 +193,14 @@ class Tutorial3BrowniePage extends StatelessWidget {
             ListView.builder(
                 shrinkWrap: true,
                 itemCount: ingredients.length,
-                itemBuilder: (context, index) =>
-                    Ingredient(name: ingredients[index])),
+                itemBuilder: (context, index) {
+                  if (checkSuccess(ingredients[index])) {
+                    return Ingredient(
+                        name: ingredients[index],
+                        onChanged: () => successCallback(context));
+                  }
+                  return Ingredient(name: ingredients[index]);
+                }),
             const _ScaledText(
               text: 'Method',
               margin: EdgeInsets.symmetric(vertical: 10),
@@ -207,5 +219,76 @@ class Tutorial3BrowniePage extends StatelessWidget {
             )
           ],
         ))));
+  }
+}
+
+class BrownieRecipe extends Tutorial3Recipe {
+  @override
+  String get title => 'Brownie recipe';
+
+  @override
+  List<String> get ingredients => [
+        '125 grams of unsalted butter',
+        '125 grams of dark baking chocolate',
+        '3 eggs, lightly whisked',
+        '1 and 1/2 cups of white sugar',
+        '3/4 cups of plain flour',
+        '1/4 cup of Dutch cocoa powder',
+        '1 teaspoon of vanilla extract',
+        'Pinch of salt'
+      ];
+
+  @override
+  List<String> get methodSteps => [
+        'Step 1: Preheat oven to 180C or 160C fan forced. Grease a 20cm square cake pan and line with baking paper.',
+        'Step 2: Place butter and chocolate in a heatproof bowl over a saucepan of simmering water (don\'t let the bowl touch the water). Stire with a metal spoon until melted. Remove from heat. Quickly stir in egg, sugar, flour, cocoa powder, vanilla and salt until just combined. Pour into prepared pan.',
+        'Step 3: Bake for 30 minutes or until a skewer inserted in the centre comes out with moist crumbs clinging. Set aside to cool completely.'
+      ];
+
+  @override
+  LabelledImage get image => const LabelledImage(
+      label: 'Picture of some brownies',
+      imageName: 'assets/images/brownie.jpeg');
+
+  const BrownieRecipe({super.key});
+}
+
+class CookieRecipe extends Tutorial3Recipe {
+  @override
+  String get title => 'Cookie recipe';
+
+  @override
+  List<String> get ingredients => [
+        '½ cup of white sugar',
+        '½ cup of brown sugar',
+        '150 grams of softened butter',
+        '1 teaspoon of vanilla extract',
+        '1 and ¾ cups of plain flour',
+        '1 egg',
+        '1 cup of chocolate chips'
+      ];
+
+  @override
+  List<String> get methodSteps => [
+        'Step 1: Preheat oven to 180C or 160C fan-forced. Line 2 baking trays with baking paper. Using an electric mixer or whisking by hand, beat butter and sugars, and 1-2 minutes or until smooth and well combined. Beat in egg and vanilla until combined.',
+        'Step 2: Stir in flour. Stir in chocolate chips. Roll 2 level tablespoonfuls of mixture into balls and place on prepared trays, 3cm apart. Press down slightly. Decorate with extra chocolate chips.',
+        'Step 3: Bake for 15-18 minutes or until light golden and cooked. Transfer to a wire rack to cool. Store in an airtight container for up to 1 week.',
+      ];
+
+  @override
+  LabelledImage get image => const LabelledImage(
+      label: 'Picture of some cookies', imageName: 'assets/images/cookie.jpeg');
+
+  const CookieRecipe({super.key});
+
+  @override
+  void successCallback(BuildContext context) {
+    print('You completed the module!');
+    Navigator.popUntil(context, ModalRoute.withName(Routes.tutorialThree));
+  }
+
+  @override
+  bool checkSuccess(String checkboxText) {
+    return checkboxText.contains('egg');
   }
 }
