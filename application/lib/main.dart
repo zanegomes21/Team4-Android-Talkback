@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:application/tutorial/tutorial_main.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
 import 'package:application/tutorial/four/tutorial_four.dart';
+import 'package:application/progression_tracker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
           Routes.tutorialTwo: (context) => const TutorialTwo(),
           Routes.tutorialFour: (context) => const TutorialFour(),
           Routes.tutorialSix: (context) => const TutorialSix(),
+          Routes.progression: (context) => const ProgressionTracker(),
         });
   }
 }
@@ -137,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Tutorials',
+            label: 'Progression',
             backgroundColor: Colors.blue,
           ),
         ],
@@ -151,8 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
               // business
               break;
             case 2:
-              // tutorials
-              path = Routes.tutorialSix;
+              // Progression Tracker
+              path = Routes.progression;
               break;
           }
           Navigator.pushNamed(context, path);

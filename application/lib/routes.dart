@@ -11,4 +11,5 @@ class Routes {
   static const String tutorialSeven = "$tutorials/seven";
 
   static const String gestures = "$home/gestures";
+  static const String progression = "$home/progression";
 }
