@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+    <languages>
+        <language name="english">
+            <tutorials>
+                <tutorial name="3">
+                    <modules>
+                        <module name="challenge">
+                            <string name="instruction">Welcome to Lesson 3's challenge. In this challenge you will be presented with a page containing baking recipes. Feel free to navigate through the different page elements using the appropriate reading controls. To complete the challenge, navigate to the cookie recipe and check the checkbox for the following ingredient … 1 egg</string>
+
+                        </module>
+                    </modules>
+                </tutorial>
+            </tutorials>
+        </language>
+    </languages>
+</strings>
