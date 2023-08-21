@@ -14,3 +14,8 @@ class SandBoxMode extends StatelessWidget {
   }
 }
 
+class SandBoxHomePage extends StatefulWidget {
+  @override
+  _SandBoxHomePageState createState() => _SandBoxHomePageState();
+}
+
