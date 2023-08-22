@@ -15,13 +15,13 @@ Future<void> main() async {
   // obtain shared preferences
   final prefs = await SharedPreferences.getInstance();
   int lang = prefs.getInt('language') ?? 0;
-  global.instructions.setLanguage(lang);
+  global.instructions.setLanguage(Language.values[lang]);
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override

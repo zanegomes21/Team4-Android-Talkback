@@ -1,6 +1,5 @@
 /// Supported languages across the application
 enum Language {
-  unset,
   english,
   french,
   spanish;
@@ -13,11 +12,11 @@ enum Language {
 class LanguageSupport<T> {
   static Language _language = Language.english;
 
-  static void setLanguage(Language language) {
+  void setLanguage(Language language) {
     LanguageSupport._language = language;
   }
 
-  static Language getLanguage() {
+  Language getLanguage() {
     return LanguageSupport._language;
   }
 
@@ -27,7 +26,7 @@ class LanguageSupport<T> {
   const LanguageSupport(this._instances, this._default);
 
   T getInstance() {
-    return _instances[LanguageSupport.getLanguage()] ?? this._default;
+    return _instances[getLanguage()] ?? this._default;
   }
 }
 

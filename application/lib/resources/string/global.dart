@@ -1,6 +1,7 @@
 library global;
 import 'package:application/resources/string/base.dart';
 import 'package:xml/xml.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NestedStrings {
     var _subfolders = new Map<String, NestedStrings>();
@@ -22,8 +23,24 @@ class NestedStrings {
         }
     }
     
-    String getString(String label) {
-        return _strings[label] ?? "error";
+    String getString(String path) {
+        // Split the input on slashes
+        final path_split = path.split("/");
+        if (path_split.length == 1) {
+            return _strings[path_split[0]] ?? "error";
+        }
+        else if (path_split.length > 1) {
+            if (_subfolders == null || _subfolders[path_split[0]] == null) {
+                return "error";
+            }
+            else {
+                return _subfolders[path_split[0]]!.getString(path_split.sublist(1).
+                        join("/"));
+            }
+        }
+        else {
+            return "error";
+        }
     }
 
 }
@@ -47,4 +64,9 @@ LanguageSupport<NestedStrings> generate_languages() {
 }
 
 
+
 LanguageSupport<NestedStrings> instructions = generate_languages();
+
+
+
+
