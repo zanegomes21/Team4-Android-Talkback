@@ -1,6 +1,7 @@
 // Page to select a language
 import 'package:flutter/material.dart';
 import 'package:application/resources/string/base.dart';
+import 'package:application/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageSelect extends StatelessWidget {
@@ -19,21 +20,35 @@ class LanguageSelect extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 LanguageSupport.setLanguage(Language.english);
-                Navigator.pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        const MyHomePage(title: 'Home Page'))
+                  );
+
               },
               child: Text("English"),
             ),
             ElevatedButton(
               onPressed: () {
                 LanguageSupport.setLanguage(Language.french);
-                Navigator.pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        const MyHomePage(title: 'Home Page'))
+                  );
+
               },
               child: Text("French"),
             ),
             ElevatedButton(
               onPressed: () {
                 LanguageSupport.setLanguage(Language.spanish);
-                Navigator.pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                        const MyHomePage(title: 'Home Page'))
+                  );
 
               },
               child: Text("Spanish"),

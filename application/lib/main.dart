@@ -6,19 +6,22 @@ import 'package:application/tutorial/two/tutorial_two.dart';
 import 'package:application/tutorial/four/tutorial_four.dart';
 import 'package:application/resources/string/base.dart';
 import 'package:application/select_language.dart';
+import 'package:application/resources/string/base.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:application/resources/string/global.dart' as global;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // obtain shared preferences
   final prefs = await SharedPreferences.getInstance();
   int lang = prefs.getInt('language') ?? 0;
+  global.instructions.setLanguage(lang);
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key key});
 
   // This widget is the root of your application.
   @override
@@ -40,13 +43,12 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: Routes.home,
         routes: {
-          Routes.home: (context) => const MyHomePage(title: 'Home Page'),
           Routes.languageSelect: (context) => const LanguageSelect(),
+          Routes.home: (context) => const MyHomePage(title: 'Home Page'),
           Routes.tutorials: (context) => const TutorialMain(),
           Routes.tutorialTwo: (context) => const TutorialTwo(),
           Routes.tutorialFour: (context) => const TutorialFour(),
-          Routes.tutorialSix: (context) => const TutorialSix(),
-        });
+          Routes.tutorialSix: (context) => const TutorialSix(), });
   }
 }
 
@@ -75,9 +77,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // Handle the language stuff
-    if (LanguageSupport.getLanguage() == Language.english) {
-        Navigator.pushNamed(context, Routes.languageSelect);
-    }
+    // Language lang = LanguageSupport.getLanguage();
+    // if (LanguageSupport.getLanguage() == Language.spanish) {
+    //     Navigator.pushNamed(context, Routes.languageSelect);
+    // }
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
