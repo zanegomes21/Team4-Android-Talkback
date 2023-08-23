@@ -38,6 +38,10 @@ dependencies:
   flutter_tts: ^3.6.3
   just_audio: ^0.9.13
   xml: ^6.3.0
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  easy_localization: any
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +59,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true # Lets flutter generate files for us, required for language support
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -62,8 +67,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/translations/
     - assets/images/
-    -  lib/resources/test.xml
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
