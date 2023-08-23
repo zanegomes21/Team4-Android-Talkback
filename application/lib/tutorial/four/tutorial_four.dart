@@ -19,7 +19,7 @@ class TutorialFour extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const StartStopMedia()),
+                      builder: (context) => const StartStopMediaPage()),
                 );
               },
               child: const Text("Start and Stop Media"),
