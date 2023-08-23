@@ -12,8 +12,9 @@ class StartStopMediaPage extends StatefulWidget {
 }
 
 class _StartStopMediaPageState extends State<StartStopMediaPage> {
-  bool _hasSpokenIntro = false; // Whether the intro has been spoken yet
-  bool _hasSpokenPause = false; // Whether the pause has been spoken yet
+  bool _hasSpokenIntro = false;
+  bool _hasSpokenPause = false;
+  bool _hasSpokenOutro = false;
 
   final FlutterTts tts = FlutterTts();
 
@@ -24,7 +25,7 @@ class _StartStopMediaPageState extends State<StartStopMediaPage> {
 
   late final chewieController = ChewieController(
     videoPlayerController: videoPlayerController,
-    autoPlay: true,
+    autoPlay: false,
     looping: true,
   );
   late final playerWidget = Chewie(
@@ -37,8 +38,6 @@ class _StartStopMediaPageState extends State<StartStopMediaPage> {
     tts.setLanguage("en-US");
     tts.setSpeechRate(0.5);
     tts.setVolume(1.0);
-
-    playerWidget.controller.addListener(checkPause);
   }
 
   Future<void> _speakIntro() async {
@@ -67,8 +66,12 @@ class _StartStopMediaPageState extends State<StartStopMediaPage> {
   }
 
   void checkPause() {
-    if (playerWidget.controller.isPlaying) {
-      playerWidget.controller.pause();
+    if (playerWidget.controller.videoPlayerController.value.isPlaying && !_hasSpokenPause && _hasSpokenIntro) {
+      _speakPauseVideo();
+      _hasSpokenPause = true;
+    } else if (!playerWidget.controller.videoPlayerController.value.isPlaying && _hasSpokenPause && !_hasSpokenOutro) {
+        _speakOutro();
+        _hasSpokenOutro = true;
     }
   }
 
@@ -79,6 +82,7 @@ class _StartStopMediaPageState extends State<StartStopMediaPage> {
       _speakIntro();
       _hasSpokenIntro = true;
     }
+    playerWidget.controller.videoPlayerController.addListener(checkPause);
 
     return Scaffold(
         appBar: AppBar(
@@ -95,6 +99,13 @@ class _StartStopMediaPageState extends State<StartStopMediaPage> {
               ]),
             ),
           );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    playerWidget.controller.videoPlayerController.dispose();
+    playerWidget.controller.dispose();
+    tts.stop();
   }
 }
 
