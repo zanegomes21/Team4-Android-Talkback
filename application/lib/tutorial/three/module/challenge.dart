@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:application/routes.dart';
 import 'package:flutter/semantics.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 
 class _ScaledText extends StatelessWidget {
   final String text;
@@ -19,7 +20,7 @@ class _ScaledText extends StatelessWidget {
     return Container(
       margin: margin,
       child: Text(
-        text,
+        text.tr(),
         textScaleFactor: textScaleFactor,
         textAlign: textAlign,
       ),
@@ -28,7 +29,7 @@ class _ScaledText extends StatelessWidget {
 }
 
 StatelessWidget _mainTitle = const _ScaledText(
-    text: 'Baking recipes',
+    text: 'tutorial3_challenge_baking_recipes',
     margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
     textScaleFactor: 3,
     textAlign: TextAlign.center);
@@ -61,7 +62,7 @@ class LabelledImage extends StatelessWidget {
     return
         // margin: const EdgeInsets.symmetric(horizontal: 60),
         Semantics(
-            label: label,
+            label: label.tr(),
             child: Image(
               image: AssetImage(imageName),
               height: 150,
@@ -71,15 +72,14 @@ class LabelledImage extends StatelessWidget {
 
 class Tutorial3Challenge extends StatelessWidget {
   const Tutorial3Challenge({super.key});
-  final String instructions =
-      'Welcome to Lesson 3\'s challenge. In this challenge you will be presented with a page containing baking recipes. Feel free to navigate through the different page elements using the appropriate reading controls. To complete the challenge, navigate to the cookie recipe and check the checkbox for the following ingredient … 1 egg';
+  final String instructions = 'tutorial3_challenge_instr1';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true, // Disable back button
-          title: const Text('Tutorial 3 challenge'),
+          automaticallyImplyLeading: false,
+          title: Text('tutorial'.tr(args: ['3']) + ' ' + 'challenge'.tr()),
         ),
         body: SingleChildScrollView(
             child: Column(
@@ -87,20 +87,19 @@ class Tutorial3Challenge extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Semantics(
-                label:
-                    'Button, instructions. Double-tap to hear the instructions',
+                label: 'instructions_button_label'.tr(),
                 child: ElevatedButton(
+                    // TODO: Avoid SemanticsService.announce() since we can't easily set appropriate textDirection for RTL languages
                     onPressed: () => SemanticsService.announce(
                         instructions, TextDirection.ltr),
-                    child: const Text('INSTRUCTIONS'))),
+                    child: const Text('instructions_button_text').tr())),
             _mainTitle,
-            const _RecipeTitle(text: 'Brownies'),
+            const _RecipeTitle(text: 'tutorial3_challenge_brownies'),
             const LabelledImage(
-                label: 'Picture of some brownies',
+                label: 'tutorial3_challenge_brownie_picture',
                 imageName: 'assets/images/brownie.jpeg'),
             const _RecipeDescription(
-                text:
-                    'This gooey brownie recipe is a crowd pleaser and is so quick and easy to make!'),
+                text: 'tutorial3_challenge_brownie_description'),
             ElevatedButton(
                 onPressed: () => {
                       Navigator.push(
@@ -109,14 +108,13 @@ class Tutorial3Challenge extends StatelessWidget {
                             builder: (context) => const BrownieRecipe()),
                       )
                     },
-                child: const Text('Go to brownie recipe')),
-            const _RecipeTitle(text: 'Cookies'),
+                child: const Text('tutorial3_challenge_brownie_goto').tr()),
+            const _RecipeTitle(text: 'tutorial3_challenge_cookies'),
             const LabelledImage(
-                label: 'Picture of some cookies',
+                label: 'tutorial3_challenge_cookie_picture',
                 imageName: 'assets/images/cookie.jpeg'),
             const _RecipeDescription(
-                text:
-                    'This scrumptious and chewy chocolate-chip cookie recipe is guaranteed to satisfy your sweet tooth!'),
+                text: 'tutorial3_challenge_cookie_description'),
             ElevatedButton(
                 onPressed: () => {
                       Navigator.push(
@@ -125,7 +123,7 @@ class Tutorial3Challenge extends StatelessWidget {
                             builder: (context) => const CookieRecipe()),
                       )
                     },
-                child: const Text('Go to cookie recipe')),
+                child: const Text('tutorial3_challenge_cookie_goto').tr()),
           ],
         )));
   }
@@ -150,7 +148,7 @@ class _IngredientState extends State<Ingredient> {
   Widget build(BuildContext context) {
     return CheckboxListTile(
       controlAffinity: ListTileControlAffinity.leading,
-      title: Text(widget.name),
+      title: Text(widget.name).tr(),
       value: isChecked,
       onChanged: (bool? value) {
         setState(() {
@@ -169,11 +167,9 @@ abstract class Tutorial3Recipe extends StatelessWidget {
   String get title;
 
   void successCallback(BuildContext context) {}
-  bool checkSuccess(String checkboxText) {
+  bool checkSuccess(int ingredientIndex) {
     return false;
   }
-
-  // int get successIndex => -1;
 
   const Tutorial3Recipe({super.key});
 
@@ -181,8 +177,8 @@ abstract class Tutorial3Recipe extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true, // Disable back button
-          title: const Text('Tutorial 3 challenge'),
+          automaticallyImplyLeading: true,
+          title: Text('tutorial'.tr(args: ['3']) + ' ' + 'challenge'.tr()),
         ),
         body: Center(
             child: SingleChildScrollView(
@@ -190,10 +186,10 @@ abstract class Tutorial3Recipe extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _RecipeTitle(text: title),
+            _RecipeTitle(text: title.tr()),
             image,
             const _ScaledText(
-              text: 'Ingredients',
+              text: 'tutorial3_challenge_ingredients',
               margin: EdgeInsets.symmetric(vertical: 10),
               textScaleFactor: 1.5,
               textAlign: TextAlign.left,
@@ -202,7 +198,7 @@ abstract class Tutorial3Recipe extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: ingredients.length,
                 itemBuilder: (context, index) {
-                  if (checkSuccess(ingredients[index])) {
+                  if (checkSuccess(index)) {
                     return Ingredient(
                         name: ingredients[index],
                         onChanged: () => successCallback(context));
@@ -210,7 +206,7 @@ abstract class Tutorial3Recipe extends StatelessWidget {
                   return Ingredient(name: ingredients[index]);
                 }),
             const _ScaledText(
-              text: 'Method',
+              text: 'tutorial3_challenge_method',
               margin: EdgeInsets.symmetric(vertical: 10),
               textScaleFactor: 1.5,
               textAlign: TextAlign.left,
@@ -232,75 +228,73 @@ abstract class Tutorial3Recipe extends StatelessWidget {
 
 class BrownieRecipe extends Tutorial3Recipe {
   @override
-  String get title => 'Brownie recipe';
+  String get title => 'tutorial3_challenge_brownie_recipe';
 
   @override
   List<String> get ingredients => [
-        '125 grams of unsalted butter',
-        '125 grams of dark baking chocolate',
-        '3 eggs, lightly whisked',
-        '1 and 1/2 cups of white sugar',
-        '3/4 cups of plain flour',
-        '1/4 cup of Dutch cocoa powder',
-        '1 teaspoon of vanilla extract',
-        'Pinch of salt'
+        'tutorial3_challenge_brownie_ingred1',
+        'tutorial3_challenge_brownie_ingred2',
+        'tutorial3_challenge_brownie_ingred3',
+        'tutorial3_challenge_brownie_ingred4',
+        'tutorial3_challenge_brownie_ingred5',
+        'tutorial3_challenge_brownie_ingred6',
+        'tutorial3_challenge_brownie_ingred7',
+        'tutorial3_challenge_brownie_ingred8'
       ];
 
   @override
   List<String> get methodSteps => [
-        'Step 1: Preheat oven to 180C or 160C fan forced. Grease a 20cm square cake pan and line with baking paper.',
-        'Step 2: Place butter and chocolate in a heatproof bowl over a saucepan of simmering water (don\'t let the bowl touch the water). Stire with a metal spoon until melted. Remove from heat. Quickly stir in egg, sugar, flour, cocoa powder, vanilla and salt until just combined. Pour into prepared pan.',
-        'Step 3: Bake for 30 minutes or until a skewer inserted in the centre comes out with moist crumbs clinging. Set aside to cool completely.'
+        'tutorial3_challenge_brownie_step1',
+        'tutorial3_challenge_brownie_step2',
+        'tutorial3_challenge_brownie_step3'
       ];
 
   @override
   LabelledImage get image => const LabelledImage(
-      label: 'Picture of some brownies',
+      label: 'tutorial3_challenge_cookie_picture',
       imageName: 'assets/images/brownie.jpeg');
 
   const BrownieRecipe({super.key});
 }
 
 class CookieRecipe extends Tutorial3Recipe {
-  final String successText =
-      'You have successfully completed Lesson 3\'s challenge. Sending you to the main menu.';
-
   @override
-  String get title => 'Cookie recipe';
+  String get title => 'tutorial3_challenge_cookie_recipe';
+
+  final int eggIndex = 5;
 
   @override
   List<String> get ingredients => [
-        '½ cup of white sugar',
-        '½ cup of brown sugar',
-        '150 grams of softened butter',
-        '1 teaspoon of vanilla extract',
-        '1 and ¾ cups of plain flour',
-        '1 egg',
-        '1 cup of chocolate chips'
+        'tutorial3_challenge_cookie_ingred1',
+        'tutorial3_challenge_cookie_ingred2',
+        'tutorial3_challenge_cookie_ingred3',
+        'tutorial3_challenge_cookie_ingred4',
+        'tutorial3_challenge_cookie_ingred5',
+        'tutorial3_challenge_cookie_ingred6',
+        'tutorial3_challenge_cookie_ingred7'
       ];
 
   @override
   List<String> get methodSteps => [
-        'Step 1: Preheat oven to 180C or 160C fan-forced. Line 2 baking trays with baking paper. Using an electric mixer or whisking by hand, beat butter and sugars, and 1-2 minutes or until smooth and well combined. Beat in egg and vanilla until combined.',
-        'Step 2: Stir in flour. Stir in chocolate chips. Roll 2 level tablespoonfuls of mixture into balls and place on prepared trays, 3cm apart. Press down slightly. Decorate with extra chocolate chips.',
-        'Step 3: Bake for 15-18 minutes or until light golden and cooked. Transfer to a wire rack to cool. Store in an airtight container for up to 1 week.',
+        'tutorial3_challenge_cookie_step1',
+        'tutorial3_challenge_cookie_step2',
+        'tutorial3_challenge_cookie_step3'
       ];
 
   @override
-  LabelledImage get image => const LabelledImage(
-      label: 'Picture of some cookies', imageName: 'assets/images/cookie.jpeg');
+  LabelledImage get image => LabelledImage(
+      label: 'tutorial3_challenge_cookie_picture'.tr(),
+      imageName: 'assets/images/cookie.jpeg');
 
   const CookieRecipe({super.key});
 
   @override
   void successCallback(BuildContext context) {
-    // SemanticsService.announce(successText, TextDirection.ltr)
-    //     .then((value) => print('Only after it\'s finished'));
     Navigator.popUntil(context, ModalRoute.withName(Routes.tutorialThree));
   }
 
   @override
-  bool checkSuccess(String checkboxText) {
-    return checkboxText.contains('egg');
+  bool checkSuccess(int ingredientIndex) {
+    return ingredientIndex == eggIndex;
   }
 }

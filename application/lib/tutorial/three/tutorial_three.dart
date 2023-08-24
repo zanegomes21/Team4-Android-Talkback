@@ -1,9 +1,9 @@
 import 'package:application/common/tutorial.dart';
 import 'package:application/tutorial/three/module/challenge.dart';
-import 'package:application/tutorial/three/module/test_xml.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-const TutorialMenu tutorialThree =
-    TutorialMenu(title: "Tutorial 3", moduleButtons: [
-  TutorialMenuButton(title: 'Challenge', module: Tutorial3Challenge()),
-  TutorialMenuButton(title: 'XML test', module: XMLModule())
+TutorialMenu tutorialThree =
+    TutorialMenu(title: 'tutorial'.tr(args: ['3']), moduleButtons: [
+  TutorialMenuButton(
+      title: 'challenge'.tr(), module: const Tutorial3Challenge()),
 ]);
