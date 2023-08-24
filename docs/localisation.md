@@ -4,8 +4,9 @@ We can use the [easy_localization](https://pub.dev/packages/easy_localization) p
 ## Add new language
 In order to add a new language, you must:
 1. Create a new JSON file for its translations in `assets/translations`. E.g. `assets/translations/es.json` for Spanish.
-2. For iOS, you must add e.g. `<string>es</string>` to `application/ios/Runner/Info.plist` in the `CFBundleLocalizations` section.
-3. Copy the English JSON into ChatGPT, and ask for the *values* to be translated into your desired language. Copy and paste the result into your new JSON file.
+2. In `main.dart`, add the new language code to `supportedLocales: const [Locale('en'), Locale('es')],` in the `EasyLocalization()` call.
+3. For iOS, you must add e.g. `<string>es</string>` to `application/ios/Runner/Info.plist` in the `CFBundleLocalizations` section.
+4. Copy the English JSON into ChatGPT, and ask for the *values* to be translated into your desired language. Copy and paste the result into your new JSON file.
 
 ## To add translatable text
 We'll use the example of translating Tutorial 3's challenge to Spanish.
