@@ -20,10 +20,10 @@ class _ScaledText extends StatelessWidget {
     return Container(
       margin: margin,
       child: Text(
-        text.tr(),
+        text,
         textScaleFactor: textScaleFactor,
         textAlign: textAlign,
-      ),
+      ).tr(),
     );
   }
 }
@@ -282,8 +282,8 @@ class CookieRecipe extends Tutorial3Recipe {
       ];
 
   @override
-  LabelledImage get image => LabelledImage(
-      label: 'tutorial3_challenge_cookie_picture'.tr(),
+  LabelledImage get image => const LabelledImage(
+      label: 'tutorial3_challenge_cookie_picture',
       imageName: 'assets/images/cookie.jpeg');
 
   const CookieRecipe({super.key});
