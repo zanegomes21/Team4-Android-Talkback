@@ -27,6 +27,13 @@ class _StartStopMediaPageState extends State<StartStopMediaPage> {
     videoPlayerController: videoPlayerController,
     autoPlay: false,
     looping: true,
+    draggableProgressBar: true,
+    allowFullScreen: false,
+    allowMuting: false,
+    autoInitialize: true,
+    hideControlsTimer: Duration(seconds: 10),
+    showOptions: false,
+    showControlsOnInitialize: false,
   );
   late final playerWidget = Chewie(
     controller: chewieController,

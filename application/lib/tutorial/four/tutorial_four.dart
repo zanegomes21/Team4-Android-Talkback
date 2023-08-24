@@ -1,4 +1,5 @@
 import 'package:application/tutorial/four/module/start_stop_media.dart';
+import 'package:application/tutorial/four/module/tutorial4_challenge.dart';
 import 'package:flutter/material.dart';
 
 class TutorialFour extends StatelessWidget {
@@ -28,8 +29,14 @@ class TutorialFour extends StatelessWidget {
               onPressed: null,
               child: Text("Media Volume Control"),
             ),
-            const ElevatedButton(
-              onPressed: null,
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Tutorial4ChallengePage()),
+                );
+              },
               child: Text("End of Lesson Challenge"),
             ),
           ],
