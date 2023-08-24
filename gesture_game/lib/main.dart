@@ -25,24 +25,29 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Gesture Mini-Game")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: isGameInProgress ? null : startGame,
-              child: Text("Start Game"),
-            ),
-            SizedBox(height: 20),
-            GestureDetector(
-              onDoubleTap: () => checkGesture(GestureType.DoubleTap),
-              onLongPress: () => checkGesture(GestureType.LongPress),
-              onVerticalDragEnd: (_) => checkGesture(GestureType.VerticalSwipe),
-              onHorizontalDragEnd: (_) =>
-                  checkGesture(GestureType.HorizontalSwipe),
-              child: Text(instructionText, style: TextStyle(fontSize: 20)),
-            )
-          ],
+      // body as gesture detector so that it detects gestures on the screen not the child components
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onDoubleTap: () => checkGesture(GestureType.DoubleTap),
+        onLongPress: () => checkGesture(GestureType.LongPress),
+        onVerticalDragEnd: (_) => checkGesture(GestureType.VerticalSwipe),
+        onHorizontalDragEnd: (_) => checkGesture(GestureType.HorizontalSwipe),
+        child: Center(
+          // check if game in progress
+          child: isGameInProgress
+          // if true show instruction text and gesture detection widget
+              ? Text(instructionText, style: TextStyle(fontSize: 20))
+              : Column(
+            // if false show start game button
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: startGame,
+                child: Text("Start Game", style: TextStyle(fontSize: 30))
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );
