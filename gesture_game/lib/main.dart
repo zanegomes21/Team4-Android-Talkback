@@ -9,6 +9,7 @@ enum GestureType {
   LongPress,
   VerticalSwipe,
   HorizontalSwipe,
+  SingleTap
 }
 
 class GestureMiniGame extends StatefulWidget {
@@ -32,6 +33,7 @@ class GestureMiniGameState extends State<GestureMiniGame> {
         onLongPress: () => checkGesture(GestureType.LongPress),
         onVerticalDragEnd: (_) => checkGesture(GestureType.VerticalSwipe),
         onHorizontalDragEnd: (_) => checkGesture(GestureType.HorizontalSwipe),
+        onTap: () => checkGesture(GestureType.SingleTap),
         child: Center(
           // check if game in progress
           child: isGameInProgress
@@ -70,8 +72,6 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   void startGame() {
     setState(() async {
       isGameInProgress = true;
-      String startGameText = "Game Starting!";
-      await flutterTts.speak(startGameText);
       getNextGesture();
     });
   }
@@ -79,7 +79,6 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   void stopGame() {
     setState(() {
       isGameInProgress = false;
-      instructionText = 'Game Starting!';
     });
   }
 
@@ -106,6 +105,8 @@ class GestureMiniGameState extends State<GestureMiniGame> {
         return "Vertical Swipe";
       case GestureType.HorizontalSwipe:
         return "Horizontal Swipe";
+      case GestureType.SingleTap:
+        return "Single Tap";
       default:
         return "Get Ready!";
     }
@@ -113,8 +114,6 @@ class GestureMiniGameState extends State<GestureMiniGame> {
 
   Future<void> checkGesture(GestureType detectedGesture) async {
     if (isGameInProgress && currentGesture == detectedGesture) {
-      String congrats = "Good Job!";
-      await flutterTts.speak(congrats);
       getNextGesture();
     }
   }
