@@ -36,15 +36,29 @@ class GestureMiniGameState extends State<GestureMiniGame> {
           // check if game in progress
           child: isGameInProgress
           // if true show instruction text and gesture detection widget
-              ? Text(instructionText, style: TextStyle(fontSize: 20))
+              ? Column(
+            children: [
+              SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: stopGame,
+                child: Text("Stop Game", style: TextStyle(fontSize: 40)),
+              ),
+              Expanded(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(instructionText, style: TextStyle(fontSize: 40)),
+                )
+              )
+            ],
+          )
               : Column(
             // if false show start game button
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: startGame,
-                child: Text("Start Game", style: TextStyle(fontSize: 30))
-              ),
+                  onPressed: startGame,
+                  child:
+                  Text("Start Game", style: TextStyle(fontSize: 40))),
               SizedBox(height: 30),
             ],
           ),
@@ -59,6 +73,13 @@ class GestureMiniGameState extends State<GestureMiniGame> {
       String startGameText = "Game Starting!";
       await flutterTts.speak(startGameText);
       getNextGesture();
+    });
+  }
+
+  void stopGame() {
+    setState(() {
+      isGameInProgress = false;
+      instructionText = 'Game Starting!';
     });
   }
 
