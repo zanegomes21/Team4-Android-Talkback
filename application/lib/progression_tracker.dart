@@ -2,6 +2,7 @@ import 'package:application/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ProgressionTracker extends StatefulWidget {
   const ProgressionTracker({Key? key}) : super(key: key);
@@ -230,6 +231,8 @@ class ProgressionTrackerState extends State<ProgressionTracker> {
                 child: LinearPercentIndicator(
                   width: MediaQuery.of(context).size.width - 50,
                   lineHeight: 20.0,
+                  animation: true,
+                  animationDuration: 1000,
                   percent: progress([
                     startStopMediaModule,
                     mediaVolumeControlModule,
@@ -324,6 +327,77 @@ class ProgressionTrackerState extends State<ProgressionTracker> {
                   ]),
                   center: Text(
                     "${(progress([
+                      calculatorAppModule,
+                      voiceRecorderAppModule,
+                    ]) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  progressColor: Colors.green,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Text(
+                'Total Progress:',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: CircularPercentIndicator(
+                  radius: 120.0,
+                  lineWidth: 10.0,
+                  animation: true,
+                  percent: progress([
+                    exploreMenuByTouchModule,
+                    scrollingModule,
+                    goBackModule,
+                    adjustSliderModule,
+                    tutorialTwoChallenge,
+                    adjustReadingControlsModule,
+                    jumpTextModule,
+                    jumpControlsModule,
+                    jumpHeadersModule,
+                    jumpLinksModule,
+                    tutorialThreeChallenge,
+                    startStopMediaModule,
+                    mediaVolumeControlModule,
+                    tutorialFourChallenge,
+                    openRecentAppsModule,
+                    goToHomeScreenModule,
+                    openNotificationsModule,
+                    openTalkbackMenuModule,
+                    openVoiceCommandModule,
+                    tutorialFiveChallenge,
+                    virtualKeyboardModule,
+                    tutorialSixChallenge,
+                    calculatorAppModule,
+                    voiceRecorderAppModule,
+                  ]),
+                  center: Text(
+                    "${(progress([
+                      exploreMenuByTouchModule,
+                      scrollingModule,
+                      goBackModule,
+                      adjustSliderModule,
+                      tutorialTwoChallenge,
+                      adjustReadingControlsModule,
+                      jumpTextModule,
+                      jumpControlsModule,
+                      jumpHeadersModule,
+                      jumpLinksModule,
+                      tutorialThreeChallenge,
+                      startStopMediaModule,
+                      mediaVolumeControlModule,
+                      tutorialFourChallenge,
+                      openRecentAppsModule,
+                      goToHomeScreenModule,
+                      openNotificationsModule,
+                      openTalkbackMenuModule,
+                      openVoiceCommandModule,
+                      tutorialFiveChallenge,
+                      virtualKeyboardModule,
+                      tutorialSixChallenge,
                       calculatorAppModule,
                       voiceRecorderAppModule,
                     ]) * 100).toStringAsFixed(0)}%",
