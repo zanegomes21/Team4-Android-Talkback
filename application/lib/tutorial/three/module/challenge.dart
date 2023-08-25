@@ -91,7 +91,7 @@ class Tutorial3Challenge extends StatelessWidget {
                 child: ElevatedButton(
                     // TODO: Avoid SemanticsService.announce() since we can't easily set appropriate textDirection for RTL languages
                     onPressed: () => SemanticsService.announce(
-                        instructions, TextDirection.ltr),
+                        instructions.tr(), TextDirection.ltr),
                     child: const Text('instructions_button_text').tr())),
             _mainTitle,
             const _RecipeTitle(text: 'tutorial3_challenge_brownies'),
