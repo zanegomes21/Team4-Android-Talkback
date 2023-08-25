@@ -5,7 +5,6 @@ import 'package:application/tutorial/tutorial_main.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
 import 'package:application/tutorial/four/tutorial_four.dart';
 import 'package:application/progression_tracker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
