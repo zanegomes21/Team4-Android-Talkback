@@ -1,5 +1,7 @@
+import 'package:application/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class ProgressionTracker extends StatefulWidget {
   const ProgressionTracker({Key? key}) : super(key: key);
@@ -77,6 +79,17 @@ class ProgressionTrackerState extends State<ProgressionTracker> {
     });
   }
 
+  double progress(modules) {
+    double total = modules.length.toDouble();
+    double completed = 0;
+    for (var module in modules) {
+      if (module) {
+        completed += 1;
+      }
+    }
+    return completed / total;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,59 +97,279 @@ class ProgressionTrackerState extends State<ProgressionTracker> {
         title: const Text('Progress Tracker'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-                'Tutorial Two Module 1: ${exploreMenuByTouchModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Two Module 2: ${scrollingModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Two Module 3: ${goBackModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Two Module 4: ${adjustSliderModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Two Challenge: ${tutorialTwoChallenge ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Three Module 1: ${adjustReadingControlsModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Three Module 2: ${jumpTextModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Three Module 3: ${jumpControlsModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Three Module 4: ${jumpHeadersModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Three Module 5: ${jumpLinksModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Three Challenge: ${tutorialThreeChallenge ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Four Module 1: ${startStopMediaModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Four Module 2: ${mediaVolumeControlModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Four Challenge: ${tutorialFourChallenge ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Five Module 1: ${openRecentAppsModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Five Module 2: ${goToHomeScreenModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Five Module 3: ${openNotificationsModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Five Module 4: ${openTalkbackMenuModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Five Module 5: ${openVoiceCommandModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Five Challenge: ${tutorialFiveChallenge ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Six Module 1: ${virtualKeyboardModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Six Challenge: ${tutorialSixChallenge ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Seven Module 1: ${calculatorAppModule ? 'Completed' : 'Not Completed'}'),
-            Text(
-                'Tutorial Seven Module 2: ${voiceRecorderAppModule ? 'Completed' : 'Not Completed'}'),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  'Tutorial Two Module 1: ${exploreMenuByTouchModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Two Module 2: ${scrollingModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Two Module 3: ${goBackModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Two Module 4: ${adjustSliderModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Two Challenge: ${tutorialTwoChallenge ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Three Module 1: ${adjustReadingControlsModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Three Module 2: ${jumpTextModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Three Module 3: ${jumpControlsModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Three Module 4: ${jumpHeadersModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Three Module 5: ${jumpLinksModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Three Challenge: ${tutorialThreeChallenge ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Four Module 1: ${startStopMediaModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Four Module 2: ${mediaVolumeControlModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Four Challenge: ${tutorialFourChallenge ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Five Module 1: ${openRecentAppsModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Five Module 2: ${goToHomeScreenModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Five Module 3: ${openNotificationsModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Five Module 4: ${openTalkbackMenuModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Five Module 5: ${openVoiceCommandModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Five Challenge: ${tutorialFiveChallenge ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Six Module 1: ${virtualKeyboardModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Six Challenge: ${tutorialSixChallenge ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Seven Module 1: ${calculatorAppModule ? 'Completed' : 'Not Completed'}'),
+              Text(
+                  'Tutorial Seven Module 2: ${voiceRecorderAppModule ? 'Completed' : 'Not Completed'}'),
+
+
+              // PROGRESS BARS TEST
+              SizedBox(height: 20),
+
+              Text(
+                'Tutorial 2',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 50,
+                  lineHeight: 20.0,
+                  percent: progress([
+                    exploreMenuByTouchModule,
+                    scrollingModule,
+                    goBackModule,
+                    adjustSliderModule,
+                    tutorialTwoChallenge,
+                  ]),
+                  center: Text(
+                    "${(progress([
+                      exploreMenuByTouchModule,
+                      scrollingModule,
+                      goBackModule,
+                      adjustSliderModule,
+                      tutorialTwoChallenge,
+                    ]) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  progressColor: Colors.green,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Text(
+                'Tutorial 3',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 50,
+                  lineHeight: 20.0,
+                  percent: progress([
+                    adjustReadingControlsModule,
+                    jumpTextModule,
+                    jumpControlsModule,
+                    jumpHeadersModule,
+                    jumpLinksModule,
+                    tutorialThreeChallenge,
+                  ]),
+                  center: Text(
+                    "${(progress([
+                      adjustReadingControlsModule,
+                      jumpTextModule,
+                      jumpControlsModule,
+                      jumpHeadersModule,
+                      jumpLinksModule,
+                      tutorialThreeChallenge,
+                    ]) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  progressColor: Colors.green,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Text(
+                'Tutorial 4',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 50,
+                  lineHeight: 20.0,
+                  percent: progress([
+                    startStopMediaModule,
+                    mediaVolumeControlModule,
+                    tutorialFourChallenge,
+                  ]),
+                  center: Text(
+                    "${(progress([
+                      startStopMediaModule,
+                      mediaVolumeControlModule,
+                      tutorialFourChallenge,
+                    ]) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  progressColor: Colors.green,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Text(
+                'Tutorial 5',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 50,
+                  lineHeight: 20.0,
+                  percent: progress([
+                    openRecentAppsModule,
+                    goToHomeScreenModule,
+                    openNotificationsModule,
+                    openTalkbackMenuModule,
+                    openVoiceCommandModule,
+                    tutorialFiveChallenge,
+                  ]),
+                  center: Text(
+                    "${(progress([
+                      openRecentAppsModule,
+                      goToHomeScreenModule,
+                      openNotificationsModule,
+                      openTalkbackMenuModule,
+                      openVoiceCommandModule,
+                      tutorialFiveChallenge,
+                    ]) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  progressColor: Colors.green,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Text(
+                'Tutorial 6',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 50,
+                  lineHeight: 20.0,
+                  percent: progress([
+                    virtualKeyboardModule,
+                    tutorialSixChallenge,
+                  ]),
+                  center: Text(
+                    "${(progress([
+                      virtualKeyboardModule,
+                      tutorialSixChallenge,
+                    ]) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  progressColor: Colors.green,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Text(
+                'Tutorial 7',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 50,
+                  lineHeight: 20.0,
+                  percent: progress([
+                    calculatorAppModule,
+                    voiceRecorderAppModule,
+                  ]),
+                  center: Text(
+                    "${(progress([
+                      calculatorAppModule,
+                      voiceRecorderAppModule,
+                    ]) * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  progressColor: Colors.green,
+                ),
+              ),
+            ],
+          ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.gesture),
+            label: 'Gesture',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'Progression',
+            backgroundColor: Colors.blue,
+          ),
+        ],
+        onTap: ((index) {
+          String path = Routes.home;
+          switch (index) {
+            case 0:
+            //home
+              break;
+            case 1:
+            // business
+              break;
+            case 2:
+            // Progression Tracker
+              path = Routes.progression;
+              break;
+          }
+          Navigator.pushNamed(context, path);
+        }),
       ),
     );
   }

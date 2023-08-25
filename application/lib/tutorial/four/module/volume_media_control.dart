@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MediaVolumeControlPage extends StatefulWidget {
   const MediaVolumeControlPage({super.key});
@@ -42,6 +43,11 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
         "In this tutorial, you will be learning how to control media volume sliders to adjust volume. To start, find the play button then double tap to play the music.");
   }
 
+  Future<void> setActivityCompleted() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('mediaVolumeControlModule', true);
+  }
+
   void _speakIncreaseVolume() {
     // SemanticsService.announce(
     //   "Great job! Now, go back to the slider and increase the media's volume above 75 by swiping up.",
@@ -71,6 +77,7 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
     tts.speak(
         "Current volume is set below 25. Congratulations on completing this lesson. Sending you back to the lesson page.");
     await tts.awaitSpeakCompletion(true);
+    setActivityCompleted();
   }
 
   @override
@@ -115,7 +122,7 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
                 if (value <= 25 && _hasSpokenDecreaseVolume) {
                   await _speakOutro();
                   await player.pause();
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
                 }
 
                 setState(() {
@@ -147,5 +154,11 @@ class _MediaVolumeControlPageState extends State<MediaVolumeControlPage> {
             ]),
           ]),
         ));
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    player.dispose();
+    tts.stop();
   }
 }
