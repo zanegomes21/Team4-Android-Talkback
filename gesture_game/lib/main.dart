@@ -91,8 +91,13 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   }
 
   GestureType getRandomGesture() {
-    final random = Random();
-    return GestureType.values[random.nextInt(GestureType.values.length)];
+    var random = Random();
+    GestureType temp = GestureType.values[random.nextInt(GestureType.values.length)];
+    while(temp == currentGesture) {
+      random = Random();
+      temp = GestureType.values[random.nextInt(GestureType.values.length)];
+    }
+    return temp;
   }
 
   String getGestureInstructionText(GestureType gesture) {
