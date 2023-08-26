@@ -21,6 +21,7 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   GestureType currentGesture = GestureType.DoubleTap;
   String instructionText = 'Game Starting...';
   bool isGameInProgress = false;
+  int numRounds = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +80,7 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   void stopGame() {
     setState(() {
       isGameInProgress = false;
+      numRounds = 0;
     });
   }
 
@@ -118,7 +120,12 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   }
 
   Future<void> checkGesture(GestureType detectedGesture) async {
+    if (numRounds == 10) {
+      await flutterTts.speak("Congratulations");
+      stopGame();
+    }
     if (isGameInProgress && currentGesture == detectedGesture) {
+      numRounds += 1;
       getNextGesture();
     }
   }
