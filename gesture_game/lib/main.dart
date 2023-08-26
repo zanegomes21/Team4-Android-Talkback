@@ -77,7 +77,7 @@ class GestureMiniGameState extends State<GestureMiniGame> {
     });
   }
 
-  void stopGame() {
+  Future<void> stopGame() async{
     setState(() {
       isGameInProgress = false;
       numRounds = 0;
