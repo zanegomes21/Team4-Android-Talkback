@@ -22,6 +22,7 @@ class GestureMiniGameState extends State<GestureMiniGame> {
   String instructionText = 'Game Starting...';
   bool isGameInProgress = false;
   int numRounds = 0;
+  int highScore = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,33 +39,34 @@ class GestureMiniGameState extends State<GestureMiniGame> {
         child: Center(
           // check if game in progress
           child: isGameInProgress
-          // if true show instruction text and gesture detection widget
+              // if true show instruction text and gesture detection widget
               ? Column(
-            children: [
-              SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: stopGame,
-                child: Text("Stop Game", style: TextStyle(fontSize: 40)),
-              ),
-              Expanded(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(instructionText, style: TextStyle(fontSize: 40)),
+                  children: [
+                    SizedBox(height: 30),
+                    ElevatedButton(
+                      onPressed: stopGame,
+                      child: Text("Stop Game", style: TextStyle(fontSize: 40)),
+                    ),
+                    Expanded(
+                        child: Align(
+                      alignment: Alignment.center,
+                      child:
+                          Text(instructionText, style: TextStyle(fontSize: 40)),
+                    ))
+                  ],
                 )
-              )
-            ],
-          )
               : Column(
-            // if false show start game button
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  onPressed: startGame,
-                  child:
-                  Text("Start Game", style: TextStyle(fontSize: 40))),
-              SizedBox(height: 30),
-            ],
-          ),
+                  // if false show start game button
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Highscore: $highScore'),
+                    ElevatedButton(
+                        onPressed: startGame,
+                        child:
+                            Text("Start Game", style: TextStyle(fontSize: 40))),
+                    SizedBox(height: 30),
+                  ],
+                ),
         ),
       ),
     );
@@ -77,7 +79,7 @@ class GestureMiniGameState extends State<GestureMiniGame> {
     });
   }
 
-  Future<void> stopGame() async{
+  Future<void> stopGame() async {
     setState(() {
       isGameInProgress = false;
       numRounds = 0;
@@ -94,8 +96,9 @@ class GestureMiniGameState extends State<GestureMiniGame> {
 
   GestureType getRandomGesture() {
     var random = Random();
-    GestureType temp = GestureType.values[random.nextInt(GestureType.values.length)];
-    while(temp == currentGesture) {
+    GestureType temp =
+        GestureType.values[random.nextInt(GestureType.values.length)];
+    while (temp == currentGesture) {
       random = Random();
       temp = GestureType.values[random.nextInt(GestureType.values.length)];
     }
@@ -123,10 +126,14 @@ class GestureMiniGameState extends State<GestureMiniGame> {
     if (numRounds == 10) {
       await flutterTts.speak("Congratulations");
       stopGame();
-    }
-    if (isGameInProgress && currentGesture == detectedGesture) {
+    } else if (isGameInProgress && currentGesture == detectedGesture) {
       numRounds += 1;
+      if (numRounds >= highScore) {
+        highScore = numRounds;
+      }
       getNextGesture();
+    } else {
+      await flutterTts.speak(instructionText);
     }
   }
 }
