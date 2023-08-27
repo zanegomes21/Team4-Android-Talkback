@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:application/tutorial/tutorial_main.dart';
 import 'package:application/tutorial/two/tutorial_two.dart';
 import 'package:application/tutorial/four/tutorial_four.dart';
+import 'package:application/sandbox_mode.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           Routes.tutorialTwo: (context) => const TutorialTwo(),
           Routes.tutorialFour: (context) => const TutorialFour(),
           Routes.tutorialSix: (context) => const TutorialSix(),
+          Routes.sandBox: (context) => const SandBox(),
         });
   }
 }
@@ -119,6 +121,11 @@ class _MyHomePageState extends State<MyHomePage> {
               style: style,
               onPressed: null,
               child: const Text('Tutorial 7'),
+            ),
+            ElevatedButton(
+              style: style,
+              onPressed: () => {Navigator.pushNamed(context, Routes.sandBox)},
+              child: const Text('Sand Box'),
             ),
           ],
         ),
