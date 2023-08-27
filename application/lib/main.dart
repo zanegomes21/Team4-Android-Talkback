@@ -16,7 +16,8 @@ void main() async {
           Locale('en'),
           Locale('es'),
           Locale('ar'),
-          Locale('zh', 'CN')
+          Locale('zh', 'CN'),
+          Locale('ru'),
         ],
         path: 'assets/translations',
         fallbackLocale: const Locale('en'),

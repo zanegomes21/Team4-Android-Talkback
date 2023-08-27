@@ -69,7 +69,7 @@ abstract class _ScrollPage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            InstructionsCard(instruction: introInstruction),
+            InstructionsCard(instruction: introInstruction.tr()),
             Expanded(
                 child: ListView.separated(
               scrollDirection: axis,
