@@ -64,5 +64,23 @@
     "tutorial3_challenge_cookie_ingred7": "1 taza de chispas de chocolate",
     "tutorial3_challenge_cookie_step1": "Paso 1: Precalienta el horno a 180°C o 160°C con ventilador. Cubre 2 bandejas de hornear con papel de hornear. Con una batidora eléctrica o batiendo a mano, bate la mantequilla y los azúcares durante 1-2 minutos hasta que estén suaves y bien combinados. Agrega el huevo y la vainilla y bate hasta que estén combinados.",
     "tutorial3_challenge_cookie_step2": "Paso 2: Agrega la harina y las chispas de chocolate. Forma bolas con 2 cucharadas de masa y colócalas en las bandejas preparadas, a una distancia de 3 cm entre ellas. Presiona ligeramente. Decora con chispas de chocolate adicionales.",
-    "tutorial3_challenge_cookie_step3": "Paso 3: Hornea durante 15-18 minutos o hasta que estén doradas y cocidas. Transfiere a una rejilla para enfriar. Almacena en un recipiente hermético durante hasta 1 semana."
+    "tutorial3_challenge_cookie_step3": "Paso 3: Hornea durante 15-18 minutos o hasta que estén doradas y cocidas. Transfiere a una rejilla para enfriar. Almacena en un recipiente hermético durante hasta 1 semana.",
+
+    "tutorial6_lesson_title": "Lección de Escritura",
+    "tutorial6_lesson_decs": "Estos cubren los gestos y acciones necesarios para usar el teclado virtual a través de Talkback.",
+    "tutorial6_virtual_keyboard_hello": "hola",
+    "tutorial6_virtual_keyboard_part1_on_finish_typing": "¡Excelente trabajo! Has escrito la palabra 'hola' con el teclado en pantalla. Felicidades por completar esta lección. En esta lección, has aprendido exitosamente cómo escribir con el teclado en pantalla.",
+    "tutorial6_virtual_keyboard_part1_on_finish_typing_fail": "Parece que no has escrito la palabra 'hola'. Toca dos veces la pantalla para mostrar el teclado. Toca el botón de retroceso para eliminar la palabra previamente escrita y luego intenta escribir la palabra 'hola' nuevamente.",
+    "tutorial6_virtual_keyboard_part1_intro": "En este tutorial, aprenderás cómo abrir el teclado virtual en pantalla y cómo escribir usando el mismo.",
+    "tutorial6_virtual_keyboard_part1_intro2": "Para empezar, toca dos veces la pantalla para abrir el teclado virtual.",
+    "tutorial6_virtual_keyboard_navigation_bar_height": "altura_barra_navegación",
+    "tutorial6_virtual_keyboard_status_bar_height": "altura_barra_estado",
+    "tutorial6_virtual_keyboard_dimen": "dimensión",
+    "tutorial6_virtual_keyboard_part1_on_show_keyboard": "¡Genial! Has abierto el teclado virtual en pantalla. Explora tocando para escribir 'hola' utilizando el teclado.",
+    "tutorial6_challenge_title": "Desafío de Escritura",
+    "tutorial6_challenge_intro": "Bienvenido al desafío de la Lección 6. En este desafío, se te pedirá enviar un mensaje a tu amigo Bob en una sala de chat. Ahora, comencemos.",
+    "tutorial6_challenge_fragment1_intro": "Para completar este desafío, envía un mensaje a Bob e incluye su nombre.",
+    "tutorial6_challenge_text_message": "bob",
+    "tutorial6_challenge_completion_message": "Has completado exitosamente la lección. Ahora, navega de regreso a la Lección 6."
+
 }
