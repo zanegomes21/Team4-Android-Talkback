@@ -64,5 +64,25 @@
     "tutorial3_challenge_cookie_ingred7": "1杯巧克力豆",
     "tutorial3_challenge_cookie_step1": "第1步：将烤箱预热至180摄氏度或160摄氏度风力逼迫。在2个烤盘上铺上烘焙纸。使用电动搅拌器或手动搅拌，将黄油和糖搅打1-2分钟，直到变得光滑和均匀。加入鸡蛋和香草，搅拌均匀。",
     "tutorial3_challenge_cookie_step2": "第2步：加入面粉。加入巧克力豆。将2勺混合物滚成球状，放在准备好的烤盘上，相隔3厘米。稍微按压。用额外的巧克力豆装饰。",
-    "tutorial3_challenge_cookie_step3": "第3步：烘烤15-18分钟，或直到变淡金色并熟透。移到金属架上冷却。在密封容器中保存，保持新鲜1周。"
+    "tutorial3_challenge_cookie_step3": "第3步：烘烤15-18分钟，或直到变淡金色并熟透。移到金属架上冷却。在密封容器中保存，保持新鲜1周。",
+
+
+
+    "tutorial6_lesson_title": "打字课程",
+    "tutorial6_lesson_decs": "这些内容涵盖了通过Talkback使用虚拟键盘所需的手势和动作。",
+    "tutorial6_virtual_keyboard_hello": "你好",
+    "tutorial6_virtual_keyboard_part1_on_finish_typing": "太棒了！你已经使用屏幕键盘输入了“你好”这个单词。恭喜你完成了这节课。在这节课中，你已经成功学会了如何使用屏幕键盘输入。",
+    "tutorial6_virtual_keyboard_part1_on_finish_typing_fail": "看起来你还没有输入“你好”这个单词。双击屏幕以弹出键盘。点击退格按钮删除之前输入的单词，然后再次尝试输入“你好”这个单词。",
+    "tutorial6_virtual_keyboard_part1_intro": "在本教程中，你将学习如何打开屏幕上的虚拟键盘并使用它进行输入。",
+    "tutorial6_virtual_keyboard_part1_intro2": "首先，双击屏幕以打开虚拟键盘。",
+    "tutorial6_virtual_keyboard_navigation_bar_height": "导航栏高度",
+    "tutorial6_virtual_keyboard_status_bar_height": "状态栏高度",
+    "tutorial6_virtual_keyboard_dimen": "尺寸",
+    "tutorial6_virtual_keyboard_part1_on_show_keyboard": "太棒了！你已经打开了屏幕上的虚拟键盘。通过触摸探索，使用键盘输入“你好”。",
+    "tutorial6_challenge_title": "打字挑战",
+    "tutorial6_challenge_intro": "欢迎来到第6课的挑战。在这个挑战中，你将被要求在聊天室里给你的朋友Bob发送一条消息。现在让我们开始吧。",
+    "tutorial6_challenge_fragment1_intro": "完成这个挑战，向Bob发送一条消息并包含他的名字。",
+    "tutorial6_challenge_text_message": "鲍勃",
+    "tutorial6_challenge_completion_message": "你已经成功完成了这节课，现在导航回教程 6。"
+
 }
