@@ -74,11 +74,6 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     flutterTts.speak(line);
   }
 
-  void _resetTts() async {
-    await flutterTts!.stop();
-    flutterTts = null;
-  }
-
   @override
   void dispose() {
     flutterTts!.stop();
