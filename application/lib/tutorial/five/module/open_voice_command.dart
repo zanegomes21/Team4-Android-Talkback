@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:application/routes.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_tts/flutter_tts.dart';
 
@@ -12,7 +14,6 @@ class OpenVoiceCommand extends StatefulWidget {
 class _OpenVoiceCommand extends State<OpenVoiceCommand>
     with WidgetsBindingObserver {
   String introMessage = """
-    Open Voice Commands using gestures.
     Welcome, in this module you will learn to enabel voice commands.
     To do this, you need to perform a swipe right then up gestrue in one motion. 
     When prompted for a voice command, say "HELP". 
@@ -26,9 +27,10 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     Next we will put some voice commands into action.
     Now that you know some voice commands, we will show you how to increase Talk
     Backs reading speed using voice command.
+    Swipe right when ready.
     """;
 
-  String fasterSpeechTitle = "Swipe right.";
+  String fasterSpeechTitle = "Swipe right";
 
   String fasterSpeechOne = """
     To make me speak faster swipe right then up with one finger to open voice command
@@ -43,6 +45,7 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
 
   bool isIntro = true;
   bool isFasterSpee = false;
+  bool isEnd = false;
   FlutterTts? flutterTts;
 
   @override
@@ -50,14 +53,10 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    // Initilizing tts engine
-    _initTextToSpeech().then((value) {
-      flutterTts = value;
-      _speakLines(flutterTts!, introMessage);
-    });
+    flutterTts = initTts();
   }
 
-  Future<FlutterTts> _initTextToSpeech() async {
+  FlutterTts initTts() {
     String lang = 'en-US';
     double narrationSpeed = 0.45;
 
@@ -67,11 +66,12 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     return flutterTts;
   }
 
-  void _speakLines(FlutterTts flutterTts, String message) async {
-    String line =
-        message.replaceAll('\n', ' '); // Multi line str into str array
+  void speak(int duration, String message) async {
+    String line = message.replaceAll('\n', ' ');
 
-    flutterTts.speak(line);
+    await Future.delayed(Duration(seconds: duration));
+
+    flutterTts?.speak(line);
   }
 
   @override
@@ -101,69 +101,44 @@ class _OpenVoiceCommand extends State<OpenVoiceCommand>
     }
   }
 
+  String returnPause = " " * 10;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Title
-      appBar: AppBar(
-        title: const Text("Open Voice Commands"),
-      ),
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
 
-      // Body
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          // All the elements of the page
-          children: [
-            if (isIntro)
-              // This speaks the intro
-              FutureBuilder<FlutterTts>(
-                  future: _initTextToSpeech(),
-                  builder: (context, snapshot) {
-                    // This reades instructions and checks for successfull
-                    // execution of said instructions.
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        _speakLines(snapshot.data!, introMessage);
-                      }
-                      return const SizedBox();
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  }),
-            if (isIntro)
-              // This is the instructions for the above intro
-              const Text(
-                'Swipe right then up\nTo open voice commands',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+    if (isIntro) {
+      speak(0, introMessage);
+    } else if (isFasterSpee) {
+      speak(2, instructionMessage);
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(fasterSpeechTitle.replaceAll('\n', ' ')),
+              Text(fasterSpeechOne.replaceAll('\n', ' ')),
+              Text(fasterSpeechTwo.replaceAll('\n', ' ')),
+              ElevatedButton(
+                style: style,
+                onPressed: () =>
+                    {Navigator.pushNamed(context, Routes.tutorialFive)},
+                child: const Text('Finish module'),
               ),
-            if (isFasterSpee)
-              // This speaks the intro
-              FutureBuilder<FlutterTts>(
-                  future: _initTextToSpeech(),
-                  builder: (context, snapshot) {
-                    // This reades instructions and checks for successfull
-                    // execution of said instructions.
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        _speakLines(snapshot.data!, instructionMessage);
-                      }
-                      return const SizedBox();
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  }),
-            if (isFasterSpee) Text(fasterSpeechTitle),
-            if (isFasterSpee) Text(fasterSpeechOne),
-            if (isFasterSpee) Text(fasterSpeechTwo)
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+
+    return Scaffold(body: Container());
+
+    /*// This attempts to read instructions to user before talkBack
+      // reads screen elements to user.
+      if (isSpeaking) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      */
   }
 }

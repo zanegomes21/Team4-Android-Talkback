@@ -1,5 +1,7 @@
 import 'package:application/tutorial/five/module/go_home.dart';
+import 'package:application/tutorial/five/module/open_notfication.dart';
 import 'package:application/tutorial/five/module/open_recent.dart';
+import 'package:application/tutorial/five/module/open_talkback_menu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:application/tutorial/five/module/open_voice_command.dart';
@@ -37,12 +39,22 @@ class TutorialFive extends StatelessWidget {
               },
               child: const Text("Go To Home Screen"),
             ),
-            const ElevatedButton(
-              onPressed: null,
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const OpenNotification()),
+                );
+              },
               child: Text("Open Notification"),
             ),
-            const ElevatedButton(
-              onPressed: null,
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const OpenTalkbackMenu()),
+                );
+              },
               child: Text("Open Talkback Menu"),
             ),
             ElevatedButton(
